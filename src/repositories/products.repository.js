@@ -1,3 +1,5 @@
+import productsDaoMongoDb from "../daos/product/productsDaoMongoDb.js"
+
 class ProductsRepository {
 
   constructor(daoSelected) {
@@ -30,6 +32,6 @@ class ProductsRepository {
   }
 }
 
-const productsRepository = new ProductsRepository() // insert DAO
+const productsRepository = new ProductsRepository(productsDaoMongoDb) // insert DAO
 
 export default productsRepository

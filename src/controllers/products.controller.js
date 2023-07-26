@@ -11,7 +11,8 @@ export async function handleGetById(req, res, next) {
 }
 
 export async function handlePost(req, res, next) {
-  const productCreated = await productsService.createNewProduct()
+  const dataNewProduct =  req.body
+  const productCreated = await productsService.createNewProduct(dataNewProduct)
   res.json(productCreated)
 }
 
