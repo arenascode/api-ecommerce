@@ -23,8 +23,8 @@ class ProductsService {
   async deleteProduct(productId) {
     return await productsRepository.deleteProduct(productId)
   }
-  async deleteAllProducts(productId) {
-    return await productsRepository.deleteAllProducts(productId)
+  async deleteAllProducts() {
+    return await productsRepository.deleteAllProducts()
   }
 }
 

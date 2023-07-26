@@ -6,8 +6,7 @@ export async function handleGetAll(req, res, next) {
 }
 
 export async function handleGetById(req, res, next) {
-  console.log(req.params.pid);
-  const productById = await productsService.getProductById(req.params.id)
+  const productById = await productsService.getProductById(req.params.pid)
   res.json(productById)
 }
 

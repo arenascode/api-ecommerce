@@ -24,12 +24,11 @@ class ProductsRepository {
   async deleteProduct(productId) {
     return await this.dao.deleteProduct(productId)
   }
-  async deleteAllProducts(productId) {
-    return await this.dao.deleteAllProducts(productId)
+  
+  async deleteAllProducts() {
+    return await this.dao.deleteAllProducts()
   }
 }
-
-
 
 const productsRepository = new ProductsRepository() // insert DAO
 
