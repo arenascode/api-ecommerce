@@ -7,12 +7,40 @@ class ProductsDaoMongoDB {
   }
 
   async getAllProducts() {
-    return this.collection.find()
+    return await this.collection.find()
   }
 
+  async getProductById(pid) {
+    return await this.collection.findById(pid)
+
+  }
   async createNewProduct(newProductData, userId) {
 
-    return this.collection.create(newProductData)
+    return await this.collection.create(newProductData)
+  }
+
+  async updateProduct(pid, newData) {
+    try {
+      return await this.collection.findByIdAndUpdate(pid, { $set: newData }, { new: true })
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  async deleteProduct(pid) {
+    try {
+      return await this.collection.findByIdAndDelete(pid)
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  async deleteAllProducts() {
+    try {
+      return await this.collection.deleteMany()
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
 }
 

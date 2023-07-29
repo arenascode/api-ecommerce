@@ -17,6 +17,7 @@ class ProductsService {
   }
 
   async updateProduct(productId, newData) {
+    console.log(newData);
     return await productsRepository.updateProduct(productId, newData) //newData must be an object
   }
 

@@ -10,8 +10,8 @@ class ProductsRepository {
     return await this.dao.getAllProducts()
   }
 
-  async getProductById(productId) {
-    return await this.dao.getProductById(productId)
+  async getProductById(pid) {
+    return await this.dao.getProductById(pid)
   }
 
   async createNewProduct(newProductData, userId) {
@@ -19,12 +19,12 @@ class ProductsRepository {
   }
 
   async updateProduct(productId, newData) {
-    // the new data must be an object
     return await this.dao.updateProduct(productId, newData)
+
   }
 
-  async deleteProduct(productId) {
-    return await this.dao.deleteProduct(productId)
+  async deleteProduct(pid) {
+    return await this.dao.deleteProduct(pid)
   }
   
   async deleteAllProducts() {
