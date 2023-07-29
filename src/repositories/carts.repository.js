@@ -1,3 +1,5 @@
+import cartsDaoMongoDb from "../daos/cart/cartsDaoMongoDb.js";
+
 class CartsRepository {
   constructor(daoSelected) {
     this.dao = daoSelected;
@@ -11,8 +13,8 @@ class CartsRepository {
     return await this.dao.getCartById(cartId);
   }
 
-  async createNewCart(newCartData, userId) {
-    return await this.dao.createNewCart(newCartData, userId);
+  async createNewCart(newCartData) {
+    return await this.dao.createNewCart(newCartData);
   }
 
   async addProductToCart(pid,cid) {
@@ -33,6 +35,6 @@ class CartsRepository {
   }
 }
 
-const cartsRepository = new CartsRepository(); // insert DAO
+const cartsRepository = new CartsRepository(cartsDaoMongoDb); // insert DAO
 
 export default cartsRepository;

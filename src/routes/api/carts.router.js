@@ -10,7 +10,7 @@ routerCarts.get('/', cartsController.handleGetAll)
 routerCarts.get('/:cid', cartsController.handleGetById)
 
 //Create New Cart
-routerCarts.post('/', cartsController.handlePost)
+routerCarts.post('/:uid', cartsController.handlePost) // Remove :uid after test
 
 //update Cart
 routerCarts.put('/:cid', cartsController.handlePut)

@@ -13,7 +13,7 @@ export async function handleGetById(req, res, next) {
 
 export async function handlePost(req, res, next) {
   const dataNewCart = req.body
-  const userId = req.user._id //check later
+  const userId = req.params.uid //check later
   const cartCreated = await cartsService.createNewCart(dataNewCart, userId);
   res.json(cartCreated);
 }

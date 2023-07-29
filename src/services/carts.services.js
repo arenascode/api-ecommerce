@@ -11,8 +11,9 @@ class CartsService {
     return await cartsRepository.getCartById(cartId);
   }
 
-  async createNewCart (dataNewCart, userId) {
-    return await cartsRepository.createNewCart(dataNewCart, userId);
+  async createNewCart(dataNewCart, userId) {
+    const dataToCreateCart = {...dataNewCart, userId}
+    return await cartsRepository.createNewCart(dataToCreateCart);
   }
 
   async addProductToCart(pid, cid) {
