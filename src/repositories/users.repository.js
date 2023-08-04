@@ -1,3 +1,4 @@
+import usersDaoMongoDb from "../daos/user/usersDaoMongoDb.js"
 class UsersRepository {
 
   constructor(daoSelected) {
@@ -25,5 +26,5 @@ class UsersRepository {
   }
 }
 
-const usersRepository = new UsersRepository() // insert DAO
+const usersRepository = new UsersRepository(usersDaoMongoDb) // insert DAO
 export default usersRepository

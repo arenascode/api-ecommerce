@@ -1,3 +1,4 @@
+import User from "../entities/User.js"
 import usersRepository from "../repositories/users.repository.js"
 
 class UsersService {
@@ -14,8 +15,10 @@ class UsersService {
   }
 
   async createNewUser(dataNewUser) {
-    // Logic
-    return await usersRepository.createNewUser(dataNewUser)
+    console.log(dataNewUser);
+    const newUser = new User(dataNewUser)
+    console.log(newUser);
+    return await usersRepository.createNewUser(newUser)
   }
 
   async updateUser(uid, newData) {
