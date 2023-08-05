@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const cartsCollection = "carts";
 
@@ -10,7 +10,8 @@ const cartsSchema = mongoose.Schema({
     type: [
       {
         _id: {
-          type: String
+          type: Schema.Types.ObjectId,
+          ref: "products"
         },
         quantity: { type: Number, required: true },
       },
@@ -19,7 +20,14 @@ const cartsSchema = mongoose.Schema({
   }
 }, { versionKey: false});
 
-
+cartsSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "products._id",
+    select: "title description price category",
+    options: { lean: true },
+  });
+  next()
+})
 const cartsModel = mongoose.model(cartsCollection, cartsSchema);
 
 export default cartsModel;

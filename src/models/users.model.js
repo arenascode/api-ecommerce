@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const usersCollection = "users";
 const usersSchema = mongoose.Schema(
@@ -10,11 +10,26 @@ const usersSchema = mongoose.Schema(
     password: { type: String, require: true },
     cart: { type: String },
     role: { type: String, require: true, enum: ["admin", "user", "premium"] },
-    cart: { type: String },
+    cart: {
+      type: Schema.Types.ObjectId,
+      ref:'carts'
+    },
     documents: { type: [String] },
     last_connection: {type: String }
   },
   { versionKey: false }
 );
+
+usersSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "cart",
+    select: "products",
+    options: { lean: true }
+  }).populate({
+    path: "cart.products._id",
+    select: "title description price"
+  });
+  next()
+})
 const usersModel = mongoose.model(usersCollection, usersSchema);
 export default usersModel;

@@ -2,6 +2,8 @@ import productsService from "../services/products.service.js";
 
 export async function handleGetAll(req, res, next) {
   try {
+    
+
     const products = await productsService.getAllProducts();
     res.json(products);
   } catch (error) {

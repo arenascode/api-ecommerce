@@ -9,9 +9,10 @@ export async function handleGet(req, res, next) {
   }
 }
 
-export function handleGetById(req, res, next) {
+export async function handleGetById(req, res, next) {
   try {
-    const userById = usersService.getUserById(req.params.uid);
+    const userById = await usersService.getUserById(req.params.uid);
+    console.log(userById);
     res.json(userById);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });

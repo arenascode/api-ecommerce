@@ -6,11 +6,11 @@ class UsersDaoMongoDb {
   }
 
   async getAllUsers() {
-    return await this.collection.find();
+    return await this.collection.find()
   }
 
   async getUserById(uid) {
-    return await this.collection.findById(uid);
+    return await this.collection.findById(uid)
   }
   
   async findUser(query) {
