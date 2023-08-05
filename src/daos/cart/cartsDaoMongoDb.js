@@ -11,6 +11,17 @@ class CartsDaoMongoDb {
   async getCartById(cid) {
     return await this.collection.findById(cid)
   }
+  async findProductInCart(cid, pid) {
+    return await this.collection.findOne(
+      {
+      _id: cid, 
+      products: {
+        $elemMatch: {_id: pid}
+      }
+      }
+    )
+  }
+  
   async createNewCart(newCartData) {
     return await this.collection.create(newCartData)
   }

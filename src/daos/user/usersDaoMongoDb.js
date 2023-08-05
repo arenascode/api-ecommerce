@@ -12,7 +12,12 @@ class UsersDaoMongoDb {
   async getUserById(uid) {
     return await this.collection.findById(uid);
   }
-
+  
+  async findUser(query) {
+    console.log(`query received in mongo ${query}`);
+    return await this.collection.find(query)
+  }
+  
   async createNewUser(dataNewUser) {
     return await this.collection.create(dataNewUser);
   }

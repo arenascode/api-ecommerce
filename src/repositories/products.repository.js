@@ -13,7 +13,10 @@ class ProductsRepository {
   async getProductById(pid) {
     return await this.dao.getProductById(pid)
   }
-
+  
+  async findProduct(query) {
+    return await this.dao.findProduct(query)
+  }
   async createNewProduct(newProductData, userId) {
     return await this.dao.createNewProduct(newProductData, userId)
   }

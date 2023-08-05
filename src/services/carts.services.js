@@ -1,4 +1,6 @@
+import Cart from "../entities/Cart.js";
 import cartsRepository from "../repositories/carts.repository.js";
+import usersRepository from "../repositories/users.repository.js";
 
 class CartsService {
 
@@ -12,8 +14,37 @@ class CartsService {
   }
 
   async createNewCart(dataNewCart, userId) {
-    const dataToCreateCart = {...dataNewCart, userId}
-    return await cartsRepository.createNewCart(dataToCreateCart);
+    console.log(`dataNewCart ${JSON.stringify(dataNewCart)}`);
+    const newProductToCart = {
+      _id: dataNewCart.pid,
+      quantity: dataNewCart.quantity,
+    };
+    const userExist = await usersRepository.getUserById(userId)
+    console.log(`userExist ${userExist}`);
+    if (userExist.cart) {
+      console.log(`user has a cart`);
+      const productInCartExist = await cartsRepository.findProductInCart(userExist.cart, dataNewCart.pid)
+      if (productInCartExist) {
+        console.log(`productInCartExist`);
+        const productToUpdate = productInCartExist.products.find(p => p._id === dataNewCart.pid);
+        console.log(`productToUpdate ${productToUpdate}`);
+        productToUpdate.quantity += dataNewCart.quantity
+        productInCartExist.save()
+        return productInCartExist
+      } else {
+        const cartToUpdate = await cartsRepository.getCartById(userExist.cart)
+        console.log(`cartToUpdate.products ${cartToUpdate}`);
+        cartToUpdate.products.push(newProductToCart)
+        cartToUpdate.save()
+        return cartToUpdate
+      }
+    } else {
+      const newCart = new Cart(userExist._id)
+      newCart.products.push(newProductToCart)
+      const cartCreated = await cartsRepository.createNewCart(newCart);
+      await usersRepository.updateUser(userExist._id, { cart: cartCreated._id })
+      return cartCreated
+    }
   }
 
   async addProductToCart(pid, cid) {

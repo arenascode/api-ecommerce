@@ -3,14 +3,14 @@ import { hash } from "../utils/cryptography.js";
 
 function validateFirstName(first_name) {
   const { error, value } = Joi.string().min(3).required().validate(first_name);
-  if (error) throw new Error(error);
+  if (error) throw new Error(`${error.message}: First Name`);
   return value;
 }
 
 function validateLastName(last_name) {
   console.log(last_name);
   const { error, value } = Joi.string().min(3).required().validate(last_name);
-  if (error) throw new Error(error);
+  if (error) throw new Error(`${error.message}: Last Name`);
   return value;
 }
 
@@ -19,7 +19,7 @@ function validateEmail(email) {
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required()
     .validate(email);
-  if (error) throw new Error(error);
+  if (error) throw new Error(`${error.message}: Email`);
   return value;
 }
 
@@ -31,13 +31,13 @@ function validatePassword(password) {
     )
     .required()
     .validate(password);
-  if (error) throw new Error(error);
+  if (error) throw new Error(`${error.message}: Password`);
   return value;
 }
 
 function validateAge(age) {
   const { error, value } = Joi.number().integer().max(100).required().validate(age)
-  if (error) throw new Error(error)
+  if (error) throw new Error(`${error.message}: Age`);
   return value 
 }
 

@@ -5,7 +5,7 @@ export async function handleGet(req, res, next) {
     const users = await usersService.getAllUsers();
     res.json(users);
   } catch (error) {
-    res.json({ errorMsg: error.message });
+    res.status(400).json({ errorMsg: error.message });
   }
 }
 
@@ -14,7 +14,7 @@ export function handleGetById(req, res, next) {
     const userById = usersService.getUserById(req.params.uid);
     res.json(userById);
   } catch (error) {
-    res.json({ errorMsg: error.message });
+    res.status(400).json({ errorMsg: error.message });
   }
 }
 
@@ -24,7 +24,7 @@ export async function handlePostNewUser(req, res, next) {
     const userCreated = await usersService.createNewUser(dataNewUser);
     res.json(userCreated);
   } catch (error) {
-    res.json({ errorMsg: error.message });
+    res.status(400).json({ errorMsg: error.message });
   }
 }
 
@@ -34,7 +34,7 @@ export async function handlePut(req, res, next) {
     const userUpdated = await usersService.updateUser(req.params.uid, newData);
     res.json(userUpdated);
   } catch (error) {
-    res.json({ errorMsg: error.message });
+    res.status(400).json({ errorMsg: error.message });
   }
 }
 
@@ -43,6 +43,6 @@ export async function handleDelete(req, res, next) {
     const userDeleted = await usersService.deleteUser(req.params.uid);
     res.json({ msg: `The User ${userDeleted} was deleted` });
   } catch (error) {
-    res.json({ errorMsg: error.message });
+    res.status(400).json({ errorMsg: error.message });
   }
 }

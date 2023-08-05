@@ -13,6 +13,9 @@ class CartsRepository {
     return await this.dao.getCartById(cartId);
   }
 
+  async findProductInCart(cid, pid) {
+    return await this.dao.findProductInCart(cid, pid)
+  }
   async createNewCart(newCartData) {
     return await this.dao.createNewCart(newCartData);
   }

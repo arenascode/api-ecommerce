@@ -1,3 +1,4 @@
+import Product from "../entities/Product.js"
 import productsRepository from "../repositories/products.repository.js"
 
 
@@ -13,7 +14,14 @@ class ProductsService {
   } 
 
   async createNewProduct(newProductData, userId) {
-    return await productsRepository.createNewProduct(newProductData, userId)
+    const newProduct = new Product(newProductData)
+    const productExist = await productsRepository.findProduct({ code: newProduct.code })
+    
+    if (!productExist.length == 0) {
+      throw new Error('This product already exist')
+    } else {
+      return await productsRepository.createNewProduct(newProduct, userId)
+    }
   }
 
   async updateProduct(productId, newData) {

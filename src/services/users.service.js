@@ -4,8 +4,6 @@ import usersRepository from "../repositories/users.repository.js"
 class UsersService {
 
   async getAllUsers() {
-    //Logic
-    
     return await usersRepository.getAllUsers()
   }
 
@@ -17,8 +15,13 @@ class UsersService {
   async createNewUser(dataNewUser) {
     console.log(dataNewUser);
     const newUser = new User(dataNewUser)
-    console.log(newUser);
-    return await usersRepository.createNewUser(newUser)
+    console.log(newUser.email);
+    const userExist = await usersRepository.findUser({ email: newUser.email })
+    if (!userExist.length == 0) {
+      throw new Error('The User Already Exist')
+    } else {
+      return await usersRepository.createNewUser(newUser)
+    }
   }
 
   async updateUser(uid, newData) {

@@ -14,6 +14,9 @@ class ProductsDaoMongoDB {
     return await this.collection.findById(pid)
 
   }
+  async findProduct(query) {
+    return await this.collection.find(query)
+  }
   async createNewProduct(newProductData, userId) {
 
     return await this.collection.create(newProductData)

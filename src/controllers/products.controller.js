@@ -5,7 +5,7 @@ export async function handleGetAll(req, res, next) {
     const products = await productsService.getAllProducts();
     res.json(products);
   } catch (error) {
-    res.json({errorMsg: error.message})
+    res.status(400).json({ errorMsg: error.message });
   }
   
 }
@@ -15,15 +15,19 @@ export async function handleGetById(req, res, next) {
     const productById = await productsService.getProductById(req.params.pid);
   res.json(productById);
   } catch (error) {
-    res.json({errorMsg: error.message})
+    res.status(400).json({errorMsg: error.message})
   }
   
 }
 
 export async function handlePost(req, res, next) {
-  const dataNewProduct = req.body;
-  const productCreated = await productsService.createNewProduct(dataNewProduct);
-  res.json(productCreated);
+  try {
+    const dataNewProduct = req.body;
+    const productCreated = await productsService.createNewProduct(dataNewProduct);
+    res.json(productCreated);
+  } catch (error) {
+     res.status(400).json({ errorMsg: error.message});
+  }
 }
 
 export async function handlePut(req, res, next) {
@@ -36,7 +40,7 @@ export async function handlePut(req, res, next) {
     );
     res.json(productUpdated);
   } catch (error) {
-    res.json({errorMsg: error.message})
+    res.status(400).json({ errorMsg: error.message });
   }
 }
 
@@ -45,7 +49,7 @@ export async function handleDeletebyId(req, res, next) {
     const productDeleted = await productsService.deleteProduct(req.params.pid);
   res.json(productDeleted);
   } catch (error) {
-    res.json({errorMsg: error.message})
+    res.status(400).json({ errorMsg: error.message });
   }
 }
 
@@ -54,7 +58,7 @@ export async function deleteAllProducts(req, res, next) {
     const resultOfDelete = await productsService.deleteAllProducts();
   res.send(resultOfDelete);
   } catch (error) {
-    res.json({ errorMsg: error.message });
+    res.status(400).json({ errorMsg: error.message });
   }
   
 }

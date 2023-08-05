@@ -13,6 +13,10 @@ class UsersRepository {
     return await this.dao.getUserById(uid)
   }
 
+  async findUser(query) {
+    return await this.dao.findUser(query)
+  }
+
   async createNewUser(dataNewUser) {
     return this.dao.createNewUser(dataNewUser);
   }
