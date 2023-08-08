@@ -2,9 +2,14 @@ import productsService from "../services/products.service.js";
 
 export async function handleGetAll(req, res, next) {
   try {
-    
+    const querys = {
+      title: req.query.title,
+      category: req.query.category
+    }
+    const sortPrice = req.query.sortprice
 
-    const products = await productsService.getAllProducts();
+    const products = await productsService.getAllProducts(querys, sortPrice);
+
     res.json(products);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });

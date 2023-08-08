@@ -8,6 +8,7 @@ class CartsDaoMongoDb {
   async getAllCarts() {
     return await this.collection.find()
   }
+
   async getCartById(cid) {
     return await this.collection.findById(cid)
   }

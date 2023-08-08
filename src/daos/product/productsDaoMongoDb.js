@@ -6,8 +6,10 @@ class ProductsDaoMongoDB {
     this.collection = productsModel
   }
 
-  async getAllProducts() {
-    return await this.collection.find()
+  async getAllProducts(matchQuerys, sort) {
+    const paginateOptions = { limit: 6, page: 1, sort: {price: sort}, lean: true };
+
+      return await this.collection.paginate(matchQuerys, paginateOptions)
   }
 
   async getProductById(pid) {

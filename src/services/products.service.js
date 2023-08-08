@@ -4,9 +4,20 @@ import productsRepository from "../repositories/products.repository.js"
 
 class ProductsService {
 
-  async getAllProducts() {
-  //Develop Logic relative to Mongoose pagination
-  return await productsRepository.getAllProducts()
+  async getAllProducts(querys, sortPrice) {
+
+    const matchQuery = {}
+    if (querys.title) {
+      matchQuery.title = querys.title
+    }
+    if (querys.category) {
+      matchQuery.category = querys.category
+    }
+    console.log(matchQuery);
+    const sort = parseInt(sortPrice ? sortPrice : 1)
+   
+    return await productsRepository.getAllProducts(matchQuery, sort)
+    
   }
   
   async getProductById(productId) {
