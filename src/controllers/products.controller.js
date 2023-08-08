@@ -7,8 +7,9 @@ export async function handleGetAll(req, res, next) {
       category: req.query.category
     }
     const sortPrice = req.query.sortprice
+    const page = req.query.page
 
-    const products = await productsService.getAllProducts(querys, sortPrice);
+    const products = await productsService.getAllProducts(querys, sortPrice, page);
 
     res.json(products);
   } catch (error) {

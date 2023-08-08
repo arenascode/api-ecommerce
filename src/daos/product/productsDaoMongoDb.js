@@ -6,8 +6,9 @@ class ProductsDaoMongoDB {
     this.collection = productsModel
   }
 
-  async getAllProducts(matchQuerys, sort) {
-    const paginateOptions = { limit: 6, page: 1, sort: {price: sort}, lean: true };
+  async getAllProducts(matchQuerys, sort, pageNum) {
+    console.log(pageNum);
+    const paginateOptions = { limit: 6, page: 1, sort: {price: sort}, page: pageNum, lean: true };
 
       return await this.collection.paginate(matchQuerys, paginateOptions)
   }

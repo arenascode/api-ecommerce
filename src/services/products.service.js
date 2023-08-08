@@ -4,7 +4,7 @@ import productsRepository from "../repositories/products.repository.js"
 
 class ProductsService {
 
-  async getAllProducts(querys, sortPrice) {
+  async getAllProducts(querys, sortPrice, page) {
 
     const matchQuery = {}
     if (querys.title) {
@@ -15,8 +15,10 @@ class ProductsService {
     }
     console.log(matchQuery);
     const sort = parseInt(sortPrice ? sortPrice : 1)
-   
-    return await productsRepository.getAllProducts(matchQuery, sort)
+    
+    const pageNum = parseInt(page ? page : 1)
+
+    return await productsRepository.getAllProducts(matchQuery, sort, pageNum)
     
   }
   

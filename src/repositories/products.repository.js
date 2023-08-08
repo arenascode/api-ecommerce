@@ -6,8 +6,8 @@ class ProductsRepository {
     this.dao = daoSelected
   }
 
-  async getAllProducts(queryFilter, sort) {
-    return await this.dao.getAllProducts(queryFilter, sort)
+  async getAllProducts(queryFilter, sort, pageNum) {
+    return await this.dao.getAllProducts(queryFilter, sort, pageNum)
   }
 
   async getProductById(pid) {
