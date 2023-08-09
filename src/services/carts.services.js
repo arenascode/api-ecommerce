@@ -52,7 +52,8 @@ class CartsService {
   }
 
   async updateCart(cartId, newData) {
-    return await cartsRepository.updateCart(cartId, newData); //newData must be an object
+
+    return await cartsRepository.updateCart(cartId, {products: newData}); //newData must be an object
   }
 
   async deleteCart(cartId) {

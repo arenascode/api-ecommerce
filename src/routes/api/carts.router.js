@@ -16,7 +16,13 @@ routerCarts.post('/:uid', cartsController.handlePost) // Remove :uid after test
 routerCarts.put('/:cid', cartsController.handlePut)
 
 //Delete Cart 
-routerCarts.delete('/:cid', cartsController.handleDeletebyId)
+routerCarts.delete('/:cid', cartsController.handleDeleteProductsInCart)
+
+//Update Quantity of one Product
+routerCarts.put('/:cid/products/:pid', cartsController.updateProductQuantity)
+
+//Delete Specific Product
+routerCarts.delete('/:cid/products/:pid', cartsController.deleteProductInCart)
 
 //Delete all Carts 
 routerCarts.delete('/', cartsController.deleteAllCarts)
