@@ -12,12 +12,16 @@ class UsersService {
     return await usersRepository.getUserById(uid)
   }
 
+  async findUserByCriteria(criteria) {
+    return await usersRepository.findUser(criteria)
+  }
+
   async createNewUser(dataNewUser) {
     console.log(dataNewUser);
     const newUser = new User(dataNewUser)
     console.log(newUser.email);
     const userExist = await usersRepository.findUser({ email: newUser.email })
-    if (!userExist.length == 0) {
+    if (userExist) {
       throw new Error('The User Already Exist')
     } else {
       return await usersRepository.createNewUser(newUser)

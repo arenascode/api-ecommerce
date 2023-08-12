@@ -8,7 +8,6 @@ function validateFirstName(first_name) {
 }
 
 function validateLastName(last_name) {
-  console.log(last_name);
   const { error, value } = Joi.string().min(3).required().validate(last_name);
   if (error) throw new Error(`${error.message}: Last Name`);
   return value;
@@ -24,7 +23,6 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-  console.log(password);
   const { error, value } = Joi.string().min(6)
     .pattern(
       new RegExp("^[a-zA-Z0-9!@#$%^&*()_+\\-=[\\]{};:'\\\",.<>/?\\\\|]{6,30}$")

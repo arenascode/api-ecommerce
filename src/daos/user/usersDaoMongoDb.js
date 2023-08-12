@@ -14,8 +14,8 @@ class UsersDaoMongoDb {
   }
   
   async findUser(query) {
-    console.log(`query received in mongo ${query}`);
-    return await this.collection.find(query)
+    console.log(`query received in mongo ${JSON.stringify(query)}`);
+    return await this.collection.findOne(query)
   }
   
   async createNewUser(dataNewUser) {
