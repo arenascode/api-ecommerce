@@ -1,10 +1,12 @@
 import { Router } from "express";
 import * as cartsController from "../../controllers/carts.controller.js";
+import { authenticationJWTApi } from "../../middlewares/passport.js";
+import { isAdmin } from "../../middlewares/handlePolicies.js";
 
 export const routerCarts = Router()
 
 //Get all carts
-routerCarts.get('/', cartsController.handleGetAll)
+routerCarts.get('/', authenticationJWTApi, isAdmin, cartsController.handleGetAll)
 
 //Get cart By Id 
 routerCarts.get('/:cid', cartsController.handleGetById)

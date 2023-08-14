@@ -31,6 +31,7 @@ passport.use(
   )
 );
 
+// Register Strategy
 passport.use(
   "register",
   new RegisterStrategy(
@@ -61,6 +62,7 @@ passport.use(
   )
 );
 
+// Login Strategy
 passport.use(
   "login",
   new LoginStrategy(
@@ -97,6 +99,28 @@ passport.use(
   )
 );
 
+// Github Strategy 
+
+// Authorization 
+
+export function authenticationJWTApi(req, res, next) {
+  passport.authenticate("jwt", (error, user, info) => {
+    if (error) {
+      return res.status(401).json({error: "Unauthorized Error"})
+    }
+    if (!user) {
+      return res.status(401).json({ error: `Token Doesn't exist. Please Log in`})
+    }
+    req.user = user
+    next()
+  }) (req, res, next)
+}
+
+
+// esto lo tengo que agregar para que funcione passport! copiar y pegar, nada mas.
+passport.serializeUser((user, next) => { next(null, user._id) })
+passport.deserializeUser((user, next) => { next(null, user) })
+
 export const passportInitialize = passport.initialize();
 
 export const registerAuthentication = passport.authenticate("register", {
@@ -108,3 +132,4 @@ export const loginAuthentication = passport.authenticate("login", {
   session: false,
   failWithError: true
 })
+

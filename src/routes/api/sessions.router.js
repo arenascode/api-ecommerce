@@ -1,6 +1,7 @@
 import { Router } from "express"
 import * as sessionsController from "../../controllers/sessions.controller.js"
 import  * as passport  from "../../middlewares/passport.js"
+import { passportCall } from "../../utils/passportCall.js"
 
 
 export const routerSessions = Router()
@@ -8,14 +9,11 @@ export const routerSessions = Router()
 routerSessions.post('/register', passport.registerAuthentication, sessionsController.userRegister)
 
 
-routerSessions.post('/login',passport.loginAuthentication, sessionsController.userLogin)
+routerSessions.post('/login', passport.loginAuthentication, sessionsController.userLogin)
 
-routerSessions.get('/logout', (req, res, next) => {
-  req.session.destroy(err => {
-    if (!err) res.send('Logout Ok!')
-    else res.send({status: 'Logout Error', body: err})
-  })
-})
+routerSessions.get('/current', passportCall('jwt'), passport.authenticationJWTApi, sessionsController.currentSession)
+
+routerSessions.get('/logout', sessionsController.userLogOut)
 
 
 // routerSessions.get('/', (req, res, next) => {
