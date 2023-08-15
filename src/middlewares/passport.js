@@ -4,6 +4,8 @@ import { Strategy as RegisterStrategy } from "passport-local";
 import { Strategy as LoginStrategy } from "passport-local";
 import usersService from "../services/users.service.js";
 import { isValidPassword } from "../utils/cryptography.js";
+import { Strategy as GithubStrategy } from "passport-github2";
+import { JWT_SECRET_KEY, githubCallbackUrl, githubClientId, githubClientSecret } from "../config/auth.config.js";
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -19,7 +21,7 @@ passport.use(
   new JwtStrategy(
     {
       jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-      secretOrKey: "JWT_SECRET_KEY",
+      secretOrKey: JWT_SECRET_KEY,
     },
     async (jwt_payload, done) => {
       try {
@@ -88,38 +90,73 @@ passport.use(
         } else {
           if (!isValidPassword(password, userSearched.password))
             return done(null, false);
-          userSearched.last_connection = new Date().toString()
-          userSearched.save()
+          userSearched.last_connection = new Date().toString();
+          userSearched.save();
           delete userSearched.password;
           console.log(`userSerached before send from passport ${userSearched}`);
-          return done(null, userSearched)
+          return done(null, userSearched);
         }
       }
     }
   )
 );
 
-// Github Strategy 
+// Github Strategy
+passport.use(
+  "github",
+  new GithubStrategy(
+    {
+      clientID: githubClientId,
+      clientSecret: githubClientSecret,
+      callbackURL: githubCallbackUrl,
+    },
+    async (accesToken, refreshToken, profile, done) => {
+      try {
+        console.log(profile);
+        let user = await usersService.findUserByCriteria({
+          email: profile._json.email,
+        });
+        if (!user) {
+          let newUser = {
+            name: profile.displayName,
+            username: profile.username,
+            id: profile.id
+          };
 
-// Authorization 
+          done(null, newUser);
+        } else {
+          done(null, user);
+        }
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);
 
+// Authorization
 export function authenticationJWTApi(req, res, next) {
   passport.authenticate("jwt", (error, user, info) => {
     if (error) {
-      return res.status(401).json({error: "Unauthorized Error"})
+      return res.status(401).json({ error: "Unauthorized Error" });
     }
     if (!user) {
-      return res.status(401).json({ error: `Token Doesn't exist. Please Log in`})
+      return res
+        .status(401)
+        .json({ error: `Token Doesn't exist. Please Log in` });
     }
-    req.user = user
-    next()
-  }) (req, res, next)
+    req.user = user;
+    next();
+  })(req, res, next);
 }
 
-
 // esto lo tengo que agregar para que funcione passport! copiar y pegar, nada mas.
-passport.serializeUser((user, next) => { next(null, user._id) })
-passport.deserializeUser((user, next) => { next(null, user) })
+passport.serializeUser((user, next) => {
+  next(null, user._id);
+});
+passport.deserializeUser((user, next) => {
+  next(null, user);
+});
 
 export const passportInitialize = passport.initialize();
 
@@ -130,6 +167,15 @@ export const registerAuthentication = passport.authenticate("register", {
 
 export const loginAuthentication = passport.authenticate("login", {
   session: false,
-  failWithError: true
-})
+  failWithError: true,
+});
 
+export const githubAuthentication = passport.authenticate('github', {
+  session: false,
+  scope: ['user:email']
+})
+export const githubAuthentication_CB = passport.authenticate('github', {
+  session: false,
+  failWithError: true,
+  failureRedirect: '/login'
+})

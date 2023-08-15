@@ -58,3 +58,18 @@ export async function currentSession(req, res, next) {
     res.status(401).json({ errorMsg: error.message });
   }
 }
+
+export async function githubLogin(req, res, next) {
+  const loggedUser = req.user
+  res.cookie('jwt_authorization', generateAToken(loggedUser), {
+    signed: true, 
+    httpOnly: true
+  })
+  res.json({user: loggedUser})
+}
+
+export async function githubCallback(req, res, next) {
+  const loggedUser = req.user;
+  console.log(loggedUser);
+  res.json("User Logged Correctly");
+}

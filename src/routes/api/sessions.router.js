@@ -15,6 +15,9 @@ routerSessions.get('/current', passportCall('jwt'), passport.authenticationJWTAp
 
 routerSessions.get('/logout', sessionsController.userLogOut)
 
+routerSessions.get('/github', passport.githubAuthentication)
+
+routerSessions.get('/githubcallback', passport.githubAuthentication_CB, sessionsController.githubLogin)
 
 // routerSessions.get('/', (req, res, next) => {
 //   if (req.session.counter) {
