@@ -1,7 +1,7 @@
 import Cart from "../entities/Cart.js";
 import cartsRepository from "../repositories/carts.repository.js";
 import usersRepository from "../repositories/users.repository.js";
-
+import Ticket from "../entities/Ticket.js"
 class CartsService {
 
   async getAllCarts() {
@@ -69,8 +69,28 @@ class CartsService {
 
   async confirmPurchase(cid) {
     const cartPurchased = await cartsRepository.getCartById(cid)
-    console.log(cartPurchased.products._id);
+    console.log(JSON.stringify(cartPurchased));
+    let producstInStock = cartPurchased.products.filter(p => p.quantity <= p._id.stock)
+    console.log(`PIS ${producstInStock}`);
+    let producstOutOfStock = cartPurchased.products.filter(p => p.quantity >= p._id.stock)
+    // console.log(`POOS ${producstOutOfStock}`);
+
+    let totalAmount = 0
+    producstInStock.forEach(p => {
+      totalAmount += p._id.price * p.quantity
+      console.log(totalAmount)
+    })
+    console.log(`TotalAMount ${totalAmount}`);
+    const purchaser = await usersRepository.getUserById(cartPurchased.user)
+    console.log(`Purchaser ${purchaser}`);
+    const newTicket = new Ticket(totalAmount, purchaser.email)
+    console.log(`NewTicket ${JSON.stringify(newTicket)}`);
+    // Send an email to the user to notify him of the purchase
+    if (newTicket) {
+      
+    }
   }
+
   async deleteCart(cartId) {
     return await cartsRepository.deleteCart(cartId);
   }
