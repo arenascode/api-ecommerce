@@ -22,7 +22,7 @@ export async function handleGetById(req, res, next) {
 export async function handlePost(req, res, next) {
   try {
     const dataNewCart = req.body
-    const userId = req.params.uid //check later
+    const userId = req.user._id
     const cartCreated = await cartsService.createNewCart(dataNewCart, userId);
     res.json(cartCreated);
   } catch (error) {
@@ -44,12 +44,26 @@ export async function handlePut(req, res, next) {
   }
 }
 
-export async function handleDeleteProductsInCart(req, res, next) {
+export async function confirmPurchase(req, res, next) {
   try {
-    const cart = await cartsService.getCartById(req.params.cid);
-    cart.products = []
+    console.log(req.params.cid);
+    await cartsService.confirmPurchase(req.params.cid)
+    res.send(`testing endpoint`)
+  } catch (error) {
+    
+  }
+}
+
+export async function updateProductQuantity(req, res, next) {
+  try {
+    const cid = req.params.cid
+    const pid = req.params.pid
+    const newQty = req.body
+    const cart = await cartsService.getCartById(cid)
+    const productToUpdateQty = cart.products.find(product => product._id._id == pid)
+    productToUpdateQty.quantity = newQty.quantity
     cart.save()
-    res.json(cart);
+    res.json(cart)
   } catch (error) {
     res.status(400).json({errorMsg: error.message})
   }
@@ -70,21 +84,16 @@ export async function deleteProductInCart(req, res, next) {
   }
 }
 
-export async function updateProductQuantity(req, res, next) {
+export async function handleDeleteProductsInCart(req, res, next) {
   try {
-    const cid = req.params.cid
-    const pid = req.params.pid
-    const newQty = req.body
-    const cart = await cartsService.getCartById(cid)
-    const productToUpdateQty = cart.products.find(product => product._id._id == pid)
-    productToUpdateQty.quantity = newQty.quantity
+    const cart = await cartsService.getCartById(req.params.cid);
+    cart.products = []
     cart.save()
-    res.json(cart)
+    res.json(cart);
   } catch (error) {
     res.status(400).json({errorMsg: error.message})
   }
 }
-
 
 export async function deleteAllCarts(req, res, next) {
   try {

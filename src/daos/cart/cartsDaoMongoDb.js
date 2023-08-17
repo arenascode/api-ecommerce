@@ -12,15 +12,19 @@ class CartsDaoMongoDb {
   async getCartById(cid) {
     return await this.collection.findById(cid)
   }
+  
   async findProductInCart(cid, pid) {
-    return await this.collection.findOne(
-      {
-      _id: cid, 
+    // console.log(`pid mongo ${pid}`);
+    const productInCart = await this.collection.findOne({
+      _id: cid,
       products: {
-        $elemMatch: {_id: pid}
-      }
-      }
-    )
+        $elemMatch: {
+          _id: pid,
+        },
+      },
+    });
+    // console.log(`MGO PIC${JSON.stringify(productInCart)}`)
+    return productInCart
   }
   
   async createNewCart(newCartData) {

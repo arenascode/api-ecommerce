@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as productsController from "../../controllers/products.controller.js";
+import { isAdmin } from "../../middlewares/handlePolicies.js";
 
 export const routerProducts = Router()
 
@@ -10,7 +11,7 @@ routerProducts.get("/", productsController.handleGetAll)
 routerProducts.get('/:pid', productsController.handleGetById)
 
 //To create a product
-routerProducts.post('/', productsController.handlePost)
+routerProducts.post('/', isAdmin , productsController.handlePost)
 
 // To update a product
 routerProducts.put('/:pid', productsController.handlePut)

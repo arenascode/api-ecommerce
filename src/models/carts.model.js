@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
 const cartsCollection = "carts";
-
 const cartsSchema = mongoose.Schema({
   user: {
     type: String
@@ -21,11 +20,7 @@ const cartsSchema = mongoose.Schema({
 }, { versionKey: false});
 
 cartsSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "products._id",
-    select: "title description price category",
-    options: { lean: true },
-  });
+  this.populate("products._id");
   next()
 })
 const cartsModel = mongoose.model(cartsCollection, cartsSchema);
