@@ -47,10 +47,10 @@ export async function handlePut(req, res, next) {
 export async function confirmPurchase(req, res, next) {
   try {
     console.log(req.params.cid);
-    await cartsService.confirmPurchase(req.params.cid)
-    res.send(`testing endpoint`)
+    const purchaseConfirm = await cartsService.confirmPurchase(req.params.cid)
+    res.send(purchaseConfirm)
   } catch (error) {
-    
+    res.status(400).json({errorMsg: error.message})
   }
 }
 
