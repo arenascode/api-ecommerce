@@ -17,7 +17,7 @@ class UsersService {
   }
 
   async createNewUser(dataNewUser) {
-    console.log(dataNewUser);
+    console.log(`dataNewUser in Service ${dataNewUser}`);
     const newUser = new User(dataNewUser)
     console.log(newUser.email);
     const userExist = await usersRepository.findUser({ email: newUser.email })

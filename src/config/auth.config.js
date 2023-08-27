@@ -7,3 +7,9 @@ export const githubCallbackUrl =
 // JWT
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
+//bcryptSalt
+export const BCRYPT_SALT = parseInt(process.env.BCRYPT_SALT)
+// Nodemailer 
+export const nodeMailerUSer = process.env.NODEMAILER_USER
+export const nodeMailerPass = process.env.NODEMAILER_PASS
+

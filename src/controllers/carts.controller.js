@@ -1,4 +1,4 @@
-import cartsService from "../services/carts.services.js";
+import cartsService from "../services/carts.service.js";
 
 export async function handleGetAll(req, res, next) {
   try {

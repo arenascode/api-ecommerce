@@ -6,6 +6,7 @@ import usersService from "../services/users.service.js";
 import { isValidPassword } from "../utils/cryptography.js";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { JWT_SECRET_KEY, githubCallbackUrl, githubClientId, githubClientSecret } from "../config/auth.config.js";
+import { AuthenticationError, validationError } from "../models/errors.js";
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -38,7 +39,8 @@ passport.use(
   "register",
   new RegisterStrategy(
     { passReqToCallback: true, usernameField: "email" },
-    async (req, username, done) => {
+    async (req, username, password, done) => {
+      console.log(`username ${username}`);
       const dataNewUser = req.body;
       console.log(`dataNewUser PssPrt Register ${JSON.stringify(dataNewUser)}`);
       try {
@@ -50,15 +52,22 @@ passport.use(
           const userExist = await usersService.findUserByCriteria(criteria);
           console.log(userExist);
           if (userExist) {
-            console.log(`user Already Exist`);
-            return done(null, false);
+            console.log(`User Already Exist`);
+            const errorInstance = new validationError(
+              'User Already Exist',
+              "Passport Strategy",
+              'Line 63'
+            );
+            errorInstance.logError();
+            throw errorInstance;
+            // return done(null, false);
           } else {
             const newUser = await usersService.createNewUser(dataNewUser);
             done(null, newUser);
           }
         }
       } catch (error) {
-        return done("Authenticate Error" + error);
+        return done(error);
       }
     }
   )

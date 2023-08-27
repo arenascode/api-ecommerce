@@ -3,6 +3,7 @@ import cartsRepository from "../repositories/carts.repository.js";
 import usersRepository from "../repositories/users.repository.js";
 import Ticket from "../entities/Ticket.js";
 import productsRepository from "../repositories/products.repository.js";
+import mailService from "./mail.service.js";
 
 class CartsService {
   async getAllCarts() {
@@ -87,20 +88,28 @@ class CartsService {
     // console.log(`POOS ${productsOutOfStock}`);
 
     let totalAmount = 0;
+    let purchasedProducts = []
     productsInStock.forEach((p) => {
       totalAmount += p._id.price * p.quantity;
       console.log(totalAmount);
+      let productBuyed = {
+        title: p._id.title,
+        price: p._id.price,
+        quantity: p.quantity
+      }
+      purchasedProducts.push(productBuyed)
     });
+
     console.log(`TotalAMount ${totalAmount}`);
     const purchaser = await usersRepository.getUserById(cartPurchased.user);
     // console.log(`Purchaser ${purchaser}`);
     const newTicket = new Ticket(totalAmount, purchaser.email);
-    // console.log(`NewTicket ${JSON.stringify(newTicket)}`);
-    // Send an email to the user to notify him of the purchase
     if (!newTicket) {
       throw new Error("Error generating Ticket. Try again");
     }
-
+    
+    // Send an email to the user to notify him of the purchase
+    await mailService.sendmailToConfirmPurchase(purchasedProducts, newTicket, purchaser.email)
     // update products stock
     await Promise.all(productsInStock.map(async (p) => {
       const product = await productsRepository.getProductById(p._id);

@@ -3,6 +3,7 @@ import { routerProducts } from "./products.router.js";
 import { routerUsers } from "./users.router.js";
 import { routerCarts } from "./carts.router.js";
 import { routerSessions } from "./sessions.router.js";
+import { responseMiddleware } from "../../middlewares/responseMethods.js";
 
 export const apiRouter = Router()
 
@@ -16,3 +17,5 @@ apiRouter.use('/users', routerUsers)
 apiRouter.use('/carts', routerCarts)
 
 apiRouter.use('/sessions', routerSessions)
+
+apiRouter.use(responseMiddleware)

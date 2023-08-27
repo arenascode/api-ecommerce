@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { envConfig } from '../config/env.config.js';
-import { JWT_SECRET_KEY } from '../config/auth.config.js';
-const bcryptSalt = process.env.BCRYPT_SALT
+import { BCRYPT_SALT, JWT_SECRET_KEY } from '../config/auth.config.js';
+const bcryptSalt = BCRYPT_SALT
+console.log(`bcryptSalt ${typeof bcryptSalt}`);
 
 export function hash(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(bcryptSalt))
+  console.log(`hash ${password}`);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(BCRYPT_SALT))
 }
 
 export function isValidPassword(receivedPass, savedPass) {
