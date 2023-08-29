@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import { passportInitialize } from "../middlewares/passport.js";
 import handlebars from "express-handlebars";
-import { routerLogin } from "../routes/views/login.routerview.js";
+import { routerView } from "../routes/web/routerview.js";
 import { envConfig } from "../config/env.config.js";
 import { cookieSecret } from "../config/cookies.config.js";
 import { CNX_STR } from "../config/mongo.config.js";
@@ -39,7 +39,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", "./views");
 app.set("view engine", "handlebars");
 app.use("/api", apiRouter);
-app.use("/", routerLogin);
+app.use("/", routerView);
 app.get("*", (req, res, next) => {
   res.status(404).send("Unknown Route: " + req.url);
 });

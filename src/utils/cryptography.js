@@ -24,6 +24,12 @@ export function generateAToken(payload) {
   });
   return token
 }
+export function generateATokenToRestorePass(payload) {
+  const token = jwt.sign(JSON.parse(JSON.stringify(payload)), secretKey, {
+    expiresIn: "1h",
+  });
+  return token
+}
 
 export function decodeToken(token) {
   return new Promise((resolve, reject) => {

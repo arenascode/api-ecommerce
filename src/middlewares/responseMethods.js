@@ -12,6 +12,7 @@ export const responseMiddleware = (req, res, next) => {
     res.status(status).json({
       success: false,
       message: message,
+      status: status
     });
   };
 

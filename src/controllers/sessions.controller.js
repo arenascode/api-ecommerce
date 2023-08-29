@@ -1,6 +1,8 @@
 import { signedCookies } from "cookie-parser";
 import { generateAToken } from "../utils/cryptography.js";
 import UserDto from "../repositories/users.dto.js";
+import { logger } from "../utils/logger.js";
+import { restorePassService } from "../services/restorePassword.service.js";
 
 export async function userRegister(req, res, next) {
   try {
@@ -72,4 +74,35 @@ export async function githubCallback(req, res, next) {
   const loggedUser = req.user;
   console.log(loggedUser);
   res.json("User Logged Correctly");
+}
+
+export async function confirmMailToRestorePassword(req, res, next) {
+  try {
+    logger.debug(JSON.stringify(req.body));
+    const result = await restorePassService.initializeRecovery(req.body);
+    logger.debug(result);
+    res /* .cookie("jwt_authorization", generateATokenToRestorePass(user), {
+      signed: true,
+      httpOnly: true,
+    }) */
+      .send("Please Chek Your Email To Continue restoring your password.");
+  } catch (error) {
+    res["sendError"](error.message, 400);
+  }
+}
+
+export async function newPassword(req, res, next) {
+  try {
+    logger.debug(JSON.stringify(req.body))
+    // logger.debug(JSON.stringify(req.token));
+    // const result = await usersService.restoreUserPassword(req.body);
+    // logger.debug(result)
+    res /* .cookie("jwt_authorization", generateATokenToRestorePass(user), {
+      signed: true,
+      httpOnly: true,
+    }) */
+      .send("Your password was restored");
+  } catch (error) {
+    res["sendError"](error.message, 400);
+  }
 }

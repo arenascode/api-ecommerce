@@ -18,3 +18,9 @@ routerSessions.get('/logout', sessionsController.userLogOut)
 routerSessions.get('/github', passport.githubAuthentication)
 
 routerSessions.get('/githubcallback', passport.githubAuthentication_CB, sessionsController.githubLogin)
+
+//Restore Password
+// Step 1. 
+routerSessions.post('/restorePassword/sendMail', sessionsController.confirmMailToRestorePassword)
+// Step 2.
+routerSessions.post('/restorePassword/newPass', sessionsController.newPassword)

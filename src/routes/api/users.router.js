@@ -17,8 +17,5 @@ routerUsers.put('/:uid', usersController.handlePut)
 //Delete User 
 routerUsers.delete('/:uid', usersController.handleDelete)
 
-//Restore password User 
-routerUsers.get('/restorePassword/sendMail', usersController.sendMailToRestorePassword)
 
-routerUsers.post('/restorePassword/newPass', usersController.confirmMailAndRestorePassword)
 
