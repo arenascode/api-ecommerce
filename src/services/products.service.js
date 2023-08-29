@@ -13,7 +13,6 @@ class ProductsService {
     if (querys.category) {
       matchQuery.category = querys.category
     }
-    console.log(matchQuery);
     const sort = parseInt(sortPrice ? sortPrice : 1)
     
     const pageNum = parseInt(page ? page : 1)

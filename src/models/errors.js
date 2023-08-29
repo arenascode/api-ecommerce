@@ -56,13 +56,12 @@ export class AuthenticationError extends Error {
   }
 }
 export class ErrorNotFound extends Error {
-  constructor(code, details, errorPath) {
-    super("Resource Not Found");
-    this.name = "ResourceNotFound";
-    this.code = code;
+  constructor(message, details) {
+    super(message);
+    this.name = "Resource Not Found";
     this.details = details;
-    this.errorPath = errorPath;
-    this.stackTrace = this.captureTrackTrace;
+    this.timestamp = new Date().toLocaleTimeString()
+    this.stackTrace = this.captureTrackTrace();
   }
 
   captureTrackTrace() {
@@ -71,9 +70,8 @@ export class ErrorNotFound extends Error {
   }
 
   logError() {
-    console.error(`[${this.timestamp}] [${this.name} [${this.message}]`);
-    console.error(`[${this.details}]`);
-    console.error(`Stack Trace: ${this.trackrace}`);
+    console.error(`[${this.timestamp}] [Error Name: ${this.name} - Message:[${this.message}] - Details: [${this.details}]`);
+    console.error(`Stack Trace: ${this.stackTrace}`);
   }
 }
 

@@ -17,5 +17,3 @@ apiRouter.use('/users', routerUsers)
 apiRouter.use('/carts', routerCarts)
 
 apiRouter.use('/sessions', routerSessions)
-
-apiRouter.use(responseMiddleware)

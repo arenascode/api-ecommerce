@@ -1,4 +1,5 @@
 import User from "../entities/User.js"
+import { ErrorNotFound } from "../models/errors.js"
 import usersRepository from "../repositories/users.repository.js"
 
 class UsersService {
@@ -36,6 +37,21 @@ class UsersService {
   async deleteUser(uid) {
     //logic 
     return await usersRepository.deleteUser(uid)
+  }
+
+  async restoreUserPassword(email) {
+    try {
+      const user = await usersRepository.findUser(email)
+      console.log(user)
+      if (!user) {
+        const error = new ErrorNotFound('User Not Found', 'RestoreUserPasword')
+        error.logError()
+      }
+      
+      return user
+    } catch (error) {
+      return error
+    }
   }
 }
 

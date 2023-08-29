@@ -1,4 +1,6 @@
+import { Logger } from "winston";
 import productsService from "../services/products.service.js";
+import { logger } from "../utils/logger.js";
 
 export async function handleGetAll(req, res, next) {
   try {
@@ -10,7 +12,6 @@ export async function handleGetAll(req, res, next) {
     const page = req.query.page
 
     const products = await productsService.getAllProducts(querys, sortPrice, page);
-
     res.json(products);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
