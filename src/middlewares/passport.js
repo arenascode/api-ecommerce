@@ -7,6 +7,7 @@ import { isValidPassword } from "../utils/cryptography.js";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { JWT_SECRET_KEY, githubCallbackUrl, githubClientId, githubClientSecret } from "../config/auth.config.js";
 import { AuthenticationError, validationError } from "../models/errors.js";
+import { logger } from "../utils/logger.js";
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -17,6 +18,25 @@ const cookieExtractor = (req) => {
   return token;
 };
 
+const queryTokenExtractor = (req) => {
+  let token = null
+  if (req && req.query) {
+    token = req.query.token
+  }
+  return token
+}
+const queryJwtOptions = {
+  jwtFromRequest: ExtractJwt.fromExtractors([queryTokenExtractor]),
+  secretOrKey: JWT_SECRET_KEY,
+};
+// Strategy using token in query
+const queryJwtStrategy = new JwtStrategy(queryJwtOptions, (jwt_payload, done) => {
+  done(null, jwt_payload)
+})
+
+passport.use('jwtQuery', queryJwtStrategy)
+
+// Strategy through token in cookies
 passport.use(
   "jwt",
   new JwtStrategy(
@@ -159,6 +179,14 @@ export function authenticationJWTApi(req, res, next) {
   })(req, res, next);
 }
 
+export function authenticationForRestorePass(req, res, next) {
+  passport.authenticate("jwtQuery", (error, user) => {
+    if (error || !user) return res.render('timeExpired')
+    req.user = user;
+    logger.debug(`passed for here? ${JSON.stringify(req.user)}`)
+    next()
+  })(req, res, next);
+}
 // esto lo tengo que agregar para que funcione passport! copiar y pegar, nada mas.
 passport.serializeUser((user, next) => {
   next(null, user._id);

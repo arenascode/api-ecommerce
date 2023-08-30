@@ -1,5 +1,7 @@
+import { validationError } from "../models/errors.js";
 import usersRepository from "../repositories/users.repository.js";
-import { generateATokenToRestorePass } from "../utils/cryptography.js";
+import { decodeToken, generateATokenToRestorePass, hash, isValidPassword } from "../utils/cryptography.js";
+import { logger } from "../utils/logger.js";
 import mailService from "./mail.service.js";
 
 class RestorePasswordService {
@@ -21,8 +23,28 @@ class RestorePasswordService {
     }
   }
 
-  async finishRecovery() {
+  async finishRecovery(userData) {
+    logger.debug(`data in ResPassService ${JSON.stringify(userData)}`)
+    const tokenExist = decodeToken(userData.userToken)
+    if (!tokenExist) throw new validationError('The time to restore your password expired. Please send ud your email again')
 
+    const user = await usersRepository.getUserById(userData.userId)
+    logger.debug(`user ${JSON.stringify(user)}`)
+    
+    const isTheSamePass = isValidPassword(userData.newPass, user.password)
+    logger.error(JSON.stringify(isTheSamePass))
+
+    if (isTheSamePass) {
+      throw new validationError(
+        `Please put a different password to the one you had`
+      );
+    } 
+
+    const newpassHashed = hash(userData.newPass)
+    console.log(newpassHashed);
+    user.password = newpassHashed
+    user.save()
+    return user
   }
 }
 

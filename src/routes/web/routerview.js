@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { decodeToken } from "../../utils/cryptography.js";
+import {authenticationForRestorePass} from "../../middlewares/passport.js";
 
 export const routerView = Router()
 // Login view
@@ -16,7 +17,7 @@ routerView.get('/restorePassword/sendMail',(req, res, next) => {
   });
 })
 
-routerView.get('/restorePassword/newPass/', async (req, res, next) => {
+routerView.get('/restorePassword/newPass/',authenticationForRestorePass, async (req, res, next) => {
   const userData = {
     id: req.query.id,
     token: req.query.token

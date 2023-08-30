@@ -32,7 +32,7 @@ export async function userLogin(req, res, next) {
       httpOnly: true,
     });
     const loggedUserDto = new UserDto(req.user)
-    res.status(201).json(loggedUserDto);
+    res.status(200).json(loggedUserDto);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
   }
@@ -94,14 +94,14 @@ export async function confirmMailToRestorePassword(req, res, next) {
 export async function newPassword(req, res, next) {
   try {
     logger.debug(JSON.stringify(req.body))
-    // logger.debug(JSON.stringify(req.token));
-    // const result = await usersService.restoreUserPassword(req.body);
-    // logger.debug(result)
+;
+    const result = await restorePassService.finishRecovery(req.body);
+    logger.debug(result)
     res /* .cookie("jwt_authorization", generateATokenToRestorePass(user), {
       signed: true,
       httpOnly: true,
     }) */
-      .send("Your password was restored");
+      ["sendSuccess"]('Password succesfully restored');
   } catch (error) {
     res["sendError"](error.message, 400);
   }

@@ -11,7 +11,7 @@ export function hash(password) {
 }
 
 export function isValidPassword(receivedPass, savedPass) {
-  return bcrypt.compare(receivedPass, savedPass)
+  return bcrypt.compareSync(receivedPass, savedPass)
 }
 
 // Generate a token 
@@ -26,7 +26,7 @@ export function generateAToken(payload) {
 }
 export function generateATokenToRestorePass(payload) {
   const token = jwt.sign(JSON.parse(JSON.stringify(payload)), secretKey, {
-    expiresIn: "1h",
+    expiresIn: "24h",
   });
   return token
 }

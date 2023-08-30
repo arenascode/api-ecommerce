@@ -93,7 +93,7 @@ class MailService {
     <p>This link will expire in 24 hours for security reasons.</p>
     <p>If you have any questions or need assistance, please contact our support team.</p>
     <p>Best regards,</p>
-    <p>Ride Bikes/p>`;
+    <p>Luxury Motorcycles</p>`;
 
     const mailOptions = {
       from: "Ride Bikes",
