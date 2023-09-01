@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as productsController from "../../controllers/products.controller.js";
-import { isAdmin } from "../../middlewares/handlePolicies.js";
+import { isAdmin, isAdminOrPremiumRole } from "../../middlewares/handlePolicies.js";
+import { authenticationJWTApi } from "../../middlewares/passport.js";
 
 export const routerProducts = Router()
 
@@ -11,13 +12,13 @@ routerProducts.get("/", productsController.handleGetAll)
 routerProducts.get('/:pid', productsController.handleGetById)
 
 //To create a product
-routerProducts.post('/', isAdmin , productsController.handlePost)
+routerProducts.post('/',authenticationJWTApi, isAdminOrPremiumRole , productsController.handlePost)
 
 // To update a product
 routerProducts.put('/:pid', productsController.handlePut)
 
 // To delete a product 
-routerProducts.delete('/:pid', productsController.handleDeletebyId)
+routerProducts.delete('/:pid',authenticationJWTApi,isAdminOrPremiumRole, productsController.handleDeletebyId)
 
 routerProducts.delete('/', productsController.deleteAllProducts)
 

@@ -20,7 +20,7 @@ class ProductsDaoMongoDB {
   async findProduct(query) {
     return await this.collection.find(query)
   }
-  async createNewProduct(newProductData, userId) {
+  async createNewProduct(newProductData) {
 
     return await this.collection.create(newProductData)
   }

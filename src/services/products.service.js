@@ -1,5 +1,8 @@
 import Product from "../entities/Product.js"
+import { validationError } from "../models/errors.js"
 import productsRepository from "../repositories/products.repository.js"
+import userRepository from "../repositories/users.repository.js"
+import { logger } from "../utils/logger.js"
 
 
 class ProductsService {
@@ -25,14 +28,17 @@ class ProductsService {
     return await productsRepository.getProductById(productId)
   } 
 
-  async createNewProduct(newProductData, userId) {
-    const newProduct = new Product(newProductData)
-    const productExist = await productsRepository.findProduct({ code: newProduct.code })
+  async createNewProduct(newProductData, userData) {
+
+    const productExist = await productsRepository.findProduct({ code: newProductData.code })
     
     if (!productExist.length == 0) {
-      throw new Error('This product already exist')
+      throw new validationError('This Product Already exist','createNewProduct', 'ProductService')
     } else {
-      return await productsRepository.createNewProduct(newProduct, userId)
+      const user = await userRepository.getUserById(userData._id)
+      const productWithOwner = { ...newProductData, owner: user.email }
+      const newProduct = new Product(productWithOwner)
+      return await productsRepository.createNewProduct(newProduct)
     }
   }
 

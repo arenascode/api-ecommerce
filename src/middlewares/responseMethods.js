@@ -23,7 +23,7 @@ export const responseMiddleware = (req, res, next) => {
     res.status(500).json({ status: "error", error });
   };
   res.sendAuthError = (error) => {
-    res.status(401).json({ status: "error", error: error.message });
+    res.status(401).json({ status: "error", error: "You aren't authenticated. Please Authenticate First" });
   };
   res.sendPermissionError = (error) => {
     res

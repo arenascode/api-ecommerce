@@ -62,25 +62,25 @@ function validatePassword(password) {
   return value
 }
 
-// function validateAge(age) {
-//   console.log(typeof age);
-//   const { error, value } = Joi.number().integer().max(100).required().validate(age)
-//   console.log(`value: ${value}`);
-//   if (error) {
-//     if (error) {
-//       const errorInstance = new validationError(
-//         error.message,
-//         "Age Input",
-//         {
-//           module: "UserEntity",
-//         }
-//       );
-//       errorInstance.logError();
-//       throw errorInstance;
-//     }
-//   }
-//   return value
-// }
+function validateAge(age) {
+  console.log(typeof age);
+  const { error, value } = Joi.number().integer().max(100).required().validate(age)
+  console.log(`value: ${value}`);
+  if (error) {
+    if (error) {
+      const errorInstance = new validationError(
+        error.message,
+        "Age Input",
+        {
+          module: "UserEntity",
+        }
+      );
+      errorInstance.logError();
+      throw errorInstance;
+    }
+  }
+  return value
+}
 
 function getCurrentDateAsString() {
   return Date().toString()
@@ -92,7 +92,7 @@ export default class User {
     this.last_name = validateLastName(last_name)
     this.email = validateEmail(email)
     this.password = hash(validatePassword(password));
-    this.age = age;
+    this.age = validateAge(age);
     this.role = role;
     this.cart = cart;
     this.documents = documents

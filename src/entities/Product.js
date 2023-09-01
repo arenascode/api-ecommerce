@@ -6,7 +6,7 @@ function validateTitle(title) {
   return value
 }
 function validateDescription(description) {
-  const { error, value } = Joi.string().min(3).required().validate(description)
+  const { error, value } = Joi.string().min(1).required().validate(description)
   if (error) throw new Error(`${error.message}: Product Description`)
   return value
 }
