@@ -1,4 +1,4 @@
-import { validationError } from "../models/errors.js";
+import { validationError } from "../models/error/errors.js";
 import usersRepository from "../repositories/users.repository.js";
 import { decodeToken, generateATokenToRestorePass, hash, isValidPassword } from "../utils/cryptography.js";
 import { logger } from "../utils/logger.js";

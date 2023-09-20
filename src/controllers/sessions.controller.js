@@ -13,7 +13,7 @@ export async function userRegister(req, res, next) {
       name: first_name + " " + last_name,
       role,
     };
-    res.send(userDTO);
+    res.status(201).send(userDTO);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
   }

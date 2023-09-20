@@ -14,7 +14,13 @@ const usersSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref:'carts'
     },
-    documents: { type: [String] },
+    documents: {
+      type: [{
+        name: { type: String },
+        reference: {type: String}
+      }]
+    },
+    status: {type: Boolean},
     last_connection: {type: String }
   },
   { versionKey: false }

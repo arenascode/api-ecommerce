@@ -1,10 +1,9 @@
 export const responseMiddleware = (req, res, next) => {
   // Extend the response object with custom methods
-  res.sendSuccess = (data, message = "Success") => {
+  res.sendSuccess = ( message = "Success") => {
     res.status(200).json({
       success: true,
       message: message,
-      data: data,
     });
   };
 

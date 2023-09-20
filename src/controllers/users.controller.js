@@ -1,7 +1,10 @@
-import { ErrorNotFound } from "../models/errors.js";
+import { ErrorNotFound, UploadFileError, errors } from "../models/error/errors.js";
 import mailService from "../services/mail.service.js";
 import usersService from "../services/users.service.js";
-import { generateAToken, generateATokenToRestorePass } from "../utils/cryptography.js";
+import {
+  generateAToken,
+  generateATokenToRestorePass,
+} from "../utils/cryptography.js";
 import { logger } from "../utils/logger.js";
 
 export async function handleGet(req, res, next) {
@@ -43,6 +46,44 @@ export async function handlePut(req, res, next) {
   }
 }
 
+export async function changeUserRole(req, res, next) {
+  try {
+    const uid = req.params.uid;
+    const role = { role: req.query.role };
+    const roleChanged = await usersService.updateUser(uid, role);
+    res["sendSuccess"](`The user role was changed to ${roleChanged.role}`);
+  } catch (error) {
+    res['sendClientError'](error.message)
+  }
+}
+
+export async function uploadDocuments(req, res, next) {
+
+  try {
+    console.log(req.files);
+    const userFiles = req.files
+    if (!userFiles) {
+      return res['sendClientError']('Cannot save the file. Try again')
+    }
+    let documents = []
+
+
+    userFiles.forEach(document => {
+      const fileToSave = {
+        name: document.fieldname,
+        reference: document.path
+      }
+      documents.push(fileToSave)
+    });
+    await usersService.updateUser(req.params.uid, {documents, status: true} )
+    res.send(`Thank you. We received your documents`)
+  } catch (error) {
+    errors.uploadFileError.logError()
+    throw new UploadFileError(error.message, `Error uploading files`)
+    // res.send(`Thank you. We received your documents`);
+    
+  }
+}
 export async function handleDelete(req, res, next) {
   try {
     const userDeleted = await usersService.deleteUser(req.params.uid);
@@ -51,5 +92,3 @@ export async function handleDelete(req, res, next) {
     res.status(400).json({ errorMsg: error.message });
   }
 }
-
-

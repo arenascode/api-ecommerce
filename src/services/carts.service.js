@@ -4,6 +4,9 @@ import usersRepository from "../repositories/users.repository.js";
 import Ticket from "../entities/Ticket.js";
 import productsRepository from "../repositories/products.repository.js";
 import mailService from "./mail.service.js";
+import productsService from "./products.service.js";
+import { logger } from "../utils/logger.js";
+import { errors, validationError } from "../models/error/errors.js";
 
 class CartsService {
   async getAllCarts() {
@@ -16,14 +19,25 @@ class CartsService {
   }
 
   async createNewCart(dataNewCart, userId) {
-    console.log(`dataNewCart ${dataNewCart}`);
+    logger.debug(`dataNewCart ${dataNewCart}`);
+
+    const productInStock = await productsService.getProductById(
+      dataNewCart.pid
+    );
+
+    if (productInStock.stock <= 0) {
+      throw errors.outOfStock;
+    }
     const newProductToCart = {
       _id: dataNewCart.pid,
       quantity: dataNewCart.quantity,
     };
 
     const userExist = await usersRepository.getUserById(userId);
-    console.log(`userExist ${userExist}`);
+    logger.debug(`userExist ${userExist}`);
+    if (userExist._id == productInStock.owner) {
+      throw new validationError("You can't buy a product added by you");
+    }
 
     if (userExist.cart._id) {
       // console.log(`user has a cart ${userExist.cart._id}`);
@@ -88,16 +102,16 @@ class CartsService {
     // console.log(`POOS ${productsOutOfStock}`);
 
     let totalAmount = 0;
-    let purchasedProducts = []
+    let purchasedProducts = [];
     productsInStock.forEach((p) => {
       totalAmount += p._id.price * p.quantity;
       console.log(totalAmount);
       let productBuyed = {
         title: p._id.title,
         price: p._id.price,
-        quantity: p.quantity
-      }
-      purchasedProducts.push(productBuyed)
+        quantity: p.quantity,
+      };
+      purchasedProducts.push(productBuyed);
     });
 
     console.log(`TotalAMount ${totalAmount}`);
@@ -107,23 +121,30 @@ class CartsService {
     if (!newTicket) {
       throw new Error("Error generating Ticket. Try again");
     }
-    
+
     // Send an email to the user to notify him of the purchase
-    await mailService.sendmailToConfirmPurchase(purchasedProducts, newTicket, purchaser.email)
+    await mailService.sendmailToConfirmPurchase(
+      purchasedProducts,
+      newTicket,
+      purchaser.email
+    );
     // update products stock
-    await Promise.all(productsInStock.map(async (p) => {
-      const product = await productsRepository.getProductById(p._id);
-      let productInCart = cartPurchased.products.find(buyedProd =>
-        buyedProd._id == p.id);
-      // console.log(`productToUpdateStock ${product}`);
-      console.log(`productInCartIsTheSame ${productInCart}`);
-      product.stock -= productInCart.quantity
-      product.save()
-      console.log(`new Stock In product${JSON.stringify(product)}`);
-    }))
-    cartPurchased.products = productsOutOfStock
-    cartPurchased.save()
-    return newTicket
+    await Promise.all(
+      productsInStock.map(async (p) => {
+        const product = await productsRepository.getProductById(p._id);
+        let productInCart = cartPurchased.products.find(
+          (buyedProd) => buyedProd._id == p.id
+        );
+        // console.log(`productToUpdateStock ${product}`);
+        console.log(`productInCartIsTheSame ${productInCart}`);
+        product.stock -= productInCart.quantity;
+        product.save();
+        console.log(`new Stock In product${JSON.stringify(product)}`);
+      })
+    );
+    cartPurchased.products = productsOutOfStock;
+    cartPurchased.save();
+    return newTicket;
   }
 
   async deleteCart(cartId) {

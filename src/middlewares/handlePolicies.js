@@ -9,9 +9,11 @@ export function isAdmin(req, res, next) {
 
 export function isUser(req, res, next) {
   if (!req.user) return res['sendAuthError']()
-  if (req.user.role != "user")
-    return res['sendPermissionError']();
-  next();
+  if (req.user.role == "user" || req.user.role == "premium") {
+    next();
+  } else {
+    return res["sendPermissionError"]();
+  }
 }
 
 export function isAdminOrPremiumRole(req, res, next) {

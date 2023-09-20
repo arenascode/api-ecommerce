@@ -5,8 +5,16 @@ import { Strategy as LoginStrategy } from "passport-local";
 import usersService from "../services/users.service.js";
 import { isValidPassword } from "../utils/cryptography.js";
 import { Strategy as GithubStrategy } from "passport-github2";
-import { JWT_SECRET_KEY, githubCallbackUrl, githubClientId, githubClientSecret } from "../config/auth.config.js";
-import { AuthenticationError, validationError } from "../models/errors.js";
+import {
+  JWT_SECRET_KEY,
+  githubCallbackUrl,
+  githubClientId,
+  githubClientSecret,
+} from "../config/auth.config.js";
+import {
+  AuthenticationError,
+  validationError,
+} from "../models/error/errors.js";
 import { logger } from "../utils/logger.js";
 
 const cookieExtractor = (req) => {
@@ -19,22 +27,25 @@ const cookieExtractor = (req) => {
 };
 
 const queryTokenExtractor = (req) => {
-  let token = null
+  let token = null;
   if (req && req.query) {
-    token = req.query.token
+    token = req.query.token;
   }
-  return token
-}
+  return token;
+};
 const queryJwtOptions = {
   jwtFromRequest: ExtractJwt.fromExtractors([queryTokenExtractor]),
   secretOrKey: JWT_SECRET_KEY,
 };
 // Strategy using token in query
-const queryJwtStrategy = new JwtStrategy(queryJwtOptions, (jwt_payload, done) => {
-  done(null, jwt_payload)
-})
+const queryJwtStrategy = new JwtStrategy(
+  queryJwtOptions,
+  (jwt_payload, done) => {
+    done(null, jwt_payload);
+  }
+);
 
-passport.use('jwtQuery', queryJwtStrategy)
+passport.use("jwtQuery", queryJwtStrategy);
 
 // Strategy through token in cookies
 passport.use(
@@ -66,7 +77,7 @@ passport.use(
       try {
         if (dataNewUser) {
           const criteria = {
-            email: username, // i told to passport that mail will be a username.
+            email: username, // I told to passport that mail will be a username.
           };
           console.log(`criteria passed to mongo ${JSON.stringify(criteria)}`);
           const userExist = await usersService.findUserByCriteria(criteria);
@@ -74,9 +85,9 @@ passport.use(
           if (userExist) {
             console.log(`User Already Exist`);
             const errorInstance = new validationError(
-              'User Already Exist',
+              "User Already Exist",
               "Passport Strategy",
-              'Line 63'
+              "Line 63"
             );
             errorInstance.logError();
             throw errorInstance;
@@ -149,7 +160,7 @@ passport.use(
           let newUser = {
             name: profile.displayName,
             username: profile.username,
-            id: profile.id
+            id: profile.id,
           };
 
           done(null, newUser);
@@ -181,10 +192,10 @@ export function authenticationJWTApi(req, res, next) {
 
 export function authenticationForRestorePass(req, res, next) {
   passport.authenticate("jwtQuery", (error, user) => {
-    if (error || !user) return res.render('timeExpired')
+    if (error || !user) return res.render("timeExpired");
     req.user = user;
-    logger.debug(`passed for here? ${JSON.stringify(req.user)}`)
-    next()
+    logger.debug(`passed for here? ${JSON.stringify(req.user)}`);
+    next();
   })(req, res, next);
 }
 // esto lo tengo que agregar para que funcione passport! copiar y pegar, nada mas.
@@ -207,12 +218,12 @@ export const loginAuthentication = passport.authenticate("login", {
   failWithError: true,
 });
 
-export const githubAuthentication = passport.authenticate('github', {
+export const githubAuthentication = passport.authenticate("github", {
   session: false,
-  scope: ['user:email']
-})
-export const githubAuthentication_CB = passport.authenticate('github', {
+  scope: ["user:email"],
+});
+export const githubAuthentication_CB = passport.authenticate("github", {
   session: false,
   failWithError: true,
-  failureRedirect: '/login'
-})
+  failureRedirect: "/login",
+});

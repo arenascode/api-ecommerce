@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { hash } from "../utils/cryptography.js";
-import { validationError } from "../models/errors.js";
+import { validationError } from "../models/error/errors.js";
 
 function validateFirstName(first_name) {
   console.log(`validateFirstName ${first_name}`);
@@ -9,25 +9,27 @@ function validateFirstName(first_name) {
   if (error instanceof validationError) {
     throw new validationError(error.message, "first_NameInput", {
       module: "UserEntity",
-    })
+    });
 
     // errorInstance.logError()
     // throw errorInstance
   }
-  
+
   return value;
 }
 
 function validateLastName(last_name) {
   console.log(`validateLastName ${last_name}`);
   const { error, value } = Joi.string().min(3).required().validate(last_name);
-    console.log(`value: ${value}`);
+  console.log(`value: ${value}`);
 
   if (error instanceof validationError) {
-    const errorInstance = new validationError(error.message, 'lastNameInput', { module: 'UserEntity' })
-    
-    errorInstance.logError()
-    throw errorInstance
+    const errorInstance = new validationError(error.message, "lastNameInput", {
+      module: "UserEntity",
+    });
+
+    errorInstance.logError();
+    throw errorInstance;
   }
   return value;
 }
@@ -36,16 +38,21 @@ function validateEmail(email) {
   console.log(`validateEmail ${email}`);
   const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!pattern.test(email)) {
-    const errorInstance = new validationError('Invalid Email. Please check it', "User Entity", 'Line: 38');
+    const errorInstance = new validationError(
+      "Invalid Email. Please check it",
+      "User Entity",
+      "Line: 38"
+    );
     errorInstance.logError();
     throw errorInstance;
   }
-  return email
+  return email;
 }
 
 function validatePassword(password) {
   console.log(`validatePAssword ${password}`);
-  const { error, value } = Joi.string().min(6)
+  const { error, value } = Joi.string()
+    .min(6)
     .pattern(
       new RegExp("^[a-zA-Z0-9!@#$%^&*()_+\\-=[\\]{};:'\\\",.<>/?\\\\|]{6,30}$")
     )
@@ -59,45 +66,55 @@ function validatePassword(password) {
     errorInstance.logError();
     throw errorInstance;
   }
-  return value
+  return value;
 }
 
 function validateAge(age) {
   console.log(typeof age);
-  const { error, value } = Joi.number().integer().max(100).required().validate(age)
+  const { error, value } = Joi.number()
+    .integer()
+    .max(100)
+    .required()
+    .validate(age);
   console.log(`value: ${value}`);
   if (error) {
     if (error) {
-      const errorInstance = new validationError(
-        error.message,
-        "Age Input",
-        {
-          module: "UserEntity",
-        }
-      );
+      const errorInstance = new validationError(error.message, "Age Input", {
+        module: "UserEntity",
+      });
       errorInstance.logError();
       throw errorInstance;
     }
   }
-  return value
+  return value;
 }
 
 function getCurrentDateAsString() {
-  return Date().toString()
+  return Date().toString();
 }
 
 export default class User {
-  constructor({first_name, last_name, email, password, age=0, status=false, cart=null, role = "user", documents = null, last_connection = getCurrentDateAsString()}) {
-    this.first_name = validateFirstName(first_name)
-    this.last_name = validateLastName(last_name)
-    this.email = validateEmail(email)
+  constructor({
+    first_name,
+    last_name,
+    email,
+    password,
+    age = 0,
+    status = false,
+    cart = null,
+    role = "user",
+    documents = null,
+    last_connection = getCurrentDateAsString(),
+  }) {
+    this.first_name = validateFirstName(first_name);
+    this.last_name = validateLastName(last_name);
+    this.email = validateEmail(email);
     this.password = hash(validatePassword(password));
     this.age = validateAge(age);
     this.role = role;
     this.cart = cart;
-    this.documents = documents
-    this.last_connection = last_connection
-    this.status = status 
+    this.documents = documents;
+    this.last_connection = last_connection;
+    this.status = status;
   }
 }
-

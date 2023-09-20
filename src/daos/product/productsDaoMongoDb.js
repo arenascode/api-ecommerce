@@ -1,5 +1,10 @@
 import productsModel from "../../models/products.model.js";
 
+export function toPojo(object) {
+  return JSON.parse(JSON.stringify(object))
+}
+
+
 class ProductsDaoMongoDB {
 
   constructor() {
@@ -21,7 +26,7 @@ class ProductsDaoMongoDB {
     return await this.collection.find(query)
   }
   async createNewProduct(newProductData) {
-
+    // const pojo = toPojo(await this.collection.create(newProductData))
     return await this.collection.create(newProductData)
   }
 

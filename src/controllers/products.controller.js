@@ -3,7 +3,8 @@ import productsService from "../services/products.service.js";
 import { logger } from "../utils/logger.js";
 import usersRepository from "../repositories/users.repository.js";
 import usersService from "../services/users.service.js";
-import { validationError } from "../models/errors.js";
+import { validationError } from "../models/error/errors.js";
+import { CLIENT_URL } from "../config/env.config.js";
 
 export async function handleGetAll(req, res, next) {
   try {
@@ -15,7 +16,12 @@ export async function handleGetAll(req, res, next) {
     const page = req.query.page
 
     const products = await productsService.getAllProducts(querys, sortPrice, page);
-    res.json(products);
+    
+    const productsWithClientURL = {
+      products,
+      CLIENT_URL
+    }
+    res.json(productsWithClientURL);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
   }
@@ -48,6 +54,10 @@ export async function handlePut(req, res, next) {
   try {
     const productId = req.params.pid;
     const newData = req.body;
+    // const photoPath = './public/productImages/VulcanKawasaki.jpg'
+    // const newData = {
+    //   thumbnails: [photoPath]
+    // }
     const productUpdated = await productsService.updateProduct(
       productId,
       newData
