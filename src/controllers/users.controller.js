@@ -1,4 +1,4 @@
-import { ErrorNotFound, UploadFileError, errors } from "../models/error/errors.js";
+import { ErrorNotFound, UploadFileError, errors, validationError } from "../models/error/errors.js";
 import mailService from "../services/mail.service.js";
 import usersService from "../services/users.service.js";
 import {
@@ -50,6 +50,16 @@ export async function changeUserRole(req, res, next) {
   try {
     const uid = req.params.uid;
     const role = { role: req.query.role };
+    const user = await usersService.getUserById(uid)
+    console.log(user.documents.length);
+    if (!user.status) {
+      throw new validationError('You must upload your documents first in order to change your role.')
+    }
+    if (role.role === 'premium' && user.documents.length < 3) {
+      throw new validationError(
+        "You are missing some document. Please make sure to upload everything in order to be premium"
+      );
+    }
     const roleChanged = await usersService.updateUser(uid, role);
     res["sendSuccess"](`The user role was changed to ${roleChanged.role}`);
   } catch (error) {

@@ -5,6 +5,7 @@ import usersRepository from "../repositories/users.repository.js";
 import usersService from "../services/users.service.js";
 import { validationError } from "../models/error/errors.js";
 import { CLIENT_URL } from "../config/env.config.js";
+import mailService from "../services/mail.service.js";
 
 export async function handleGetAll(req, res, next) {
   try {
@@ -42,6 +43,8 @@ export async function handlePost(req, res, next) {
   try {
     const dataNewProduct = req.body;
     const productOwner = req.user
+    console.log(dataNewProduct);
+    console.log(productOwner);
 
     const productCreated = await productsService.createNewProduct(dataNewProduct, productOwner);
     res.json(productCreated);
@@ -78,6 +81,10 @@ export async function handleDeletebyId(req, res, next) {
       const productDeleted = await productsService.deleteProduct(
         req.params.pid
       );
+      const userOwnOfProduct = await usersService.findUserByCriteria({email: productToDelete.owner})
+      if (userOwnOfProduct.role === 'premium') {
+        await mailService.sendMailToNotifyOfProductDeleted(userOwnOfProduct, productDeleted)
+      }
       res['sendSuccess']('Product Succesfully Removed');
     } else {
       if (user.email !== productToDelete.owner) {

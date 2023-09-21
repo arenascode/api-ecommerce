@@ -176,6 +176,7 @@ passport.use(
 
 // Authorization
 export function authenticationJWTApi(req, res, next) {
+  console.log(req.body);
   passport.authenticate("jwt", (error, user, info) => {
     if (error) {
       return res.status(401).json({ error: "Unauthorized Error" });

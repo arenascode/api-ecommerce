@@ -17,7 +17,7 @@ class UsersService {
     try {
       return await usersRepository.findUser(criteria);
     } catch (error) {
-      throw ErrorNotFound('user Not Found', )
+      throw ErrorNotFound('user Not Found')
     }
   }
 

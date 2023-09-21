@@ -4,7 +4,6 @@ import { logger } from "../utils/logger.js";
 import { envConfig } from "../config/env.config.js";
 import { CLIENT_URL } from "../config/env.config.js";
 
-
 class MailService {
   async sendmailToConfirmPurchase(purchasedProducts, ticket, purchaserMail) {
     const transport = nodemailer.createTransport({
@@ -83,7 +82,8 @@ class MailService {
         pass: nodeMailerPass,
       },
     });
-    const link = `http://${CLIENT_URL}/restorePassword/newPass?token=${token}&id=${userId}`
+
+    const link = `http://${CLIENT_URL}/restorePassword/newPass?token=${token}&id=${userId}`;
 
     const templateRestorePass = `<h1>Password Reset</h1>
     <p>Hello!</p>
@@ -96,7 +96,7 @@ class MailService {
     <p>Luxury Motorcycles</p>`;
 
     const mailOptions = {
-      from: "Ride Bikes",
+      from: "Luxury Motorcycles",
       to: userMail,
       subject: "Restore Your password in Rike Bikes",
       html: templateRestorePass,
@@ -113,6 +113,54 @@ class MailService {
       logger.info(`email sent ${sendMail}`);
     } catch (error) {
       logger.error(error);
+    }
+  }
+
+  async sendMailToNotifyOfProductDeleted(user, product) {
+    console.log(user.email);
+    console.log(product);
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      auth: {
+        user: nodeMailerUSer,
+        pass: nodeMailerPass,
+      },
+    });
+
+    const templateNotificationHTML = `
+    <h1>One of your products was deleted!</h1>
+    <h2>Hi ${user.first_name}</h2>
+    <h2>One of your products was removed because it violates our posting policies</h2>
+
+    <h3>The Product was:</h3>
+  <p>Name: ${product.title}</p>
+  <p>Description: ${product.description}</p>
+  <p>Code Of Product: ${product.code}</p>
+  
+  <p>Please review our posting products policies and try to upload the product again. We don't want you to stop selling. </p>
+  <br/>
+  <p>Luxury Motorcycles</p>`;
+
+    const mailOptions = {
+      from: "Luxury Motorcycles",
+      to: user.email,
+      subject: "One Of Your Products Was Deleted",
+      html: templateNotificationHTML,
+    };
+
+    try {
+      const sendMail = transport.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          logger.info("Error sending email:", error);
+        } else {
+          logger.info("Email sent:", info.response);
+        }
+      });
+      logger.info(`email sent ${sendMail}`);
+    } catch (error) {
+      throw new Error(`some error ocurred when trying to send email: ${error.message}`)
     }
   }
 }
