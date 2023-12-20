@@ -1,4 +1,6 @@
+import { CLIENT_URL } from "../config/env.config.js";
 import cartsService from "../services/carts.service.js";
+import { logger } from "../utils/logger.js";
 
 export async function handleGetAll(req, res, next) {
   try {
@@ -13,7 +15,8 @@ export async function handleGetById(req, res, next) {
   try {
     console.log(req.params.cid);
     const cartById = await cartsService.getCartById(req.params.cid);
-    res.json(cartById);
+
+    res.json({cartById, CLIENT_URL});
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
   }
@@ -23,7 +26,9 @@ export async function handlePost(req, res, next) {
   try {
     const dataNewCart = req.body
     const userId = req.user._id
+    // console.log(userId);
     const cartCreated = await cartsService.createNewCart(dataNewCart, userId);
+    logger.debug(cartCreated)
     res.json(cartCreated);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
@@ -48,7 +53,7 @@ export async function confirmPurchase(req, res, next) {
   try {
     console.log(req.params.cid);
     const purchaseConfirm = await cartsService.confirmPurchase(req.params.cid)
-    res.send(purchaseConfirm)
+    res.status(200).send(purchaseConfirm)
   } catch (error) {
     res.status(400).json({errorMsg: error.message})
   }

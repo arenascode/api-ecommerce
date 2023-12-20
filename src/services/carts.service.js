@@ -19,27 +19,29 @@ class CartsService {
   }
 
   async createNewCart(dataNewCart, userId) {
-    logger.debug(`dataNewCart ${dataNewCart}`);
+    logger.debug(`dataNewCart ${JSON.stringify(dataNewCart)}`);
 
     const productInStock = await productsService.getProductById(
       dataNewCart.pid
     );
+    console.log(productInStock);
 
     if (productInStock.stock <= 0) {
       throw errors.outOfStock;
     }
     const newProductToCart = {
-      _id: dataNewCart.pid,
+      _id: {...productInStock},
       quantity: dataNewCart.quantity,
     };
 
     const userExist = await usersRepository.getUserById(userId);
     logger.debug(`userExist ${userExist}`);
+    
     if (userExist._id == productInStock.owner) {
       throw new validationError("You can't buy a product added by you");
     }
-
-    if (userExist.cart._id) {
+    logger.debug(`cartIdInUser ${userExist.cart}`)
+    if (userExist.cart) {
       // console.log(`user has a cart ${userExist.cart._id}`);
       // console.log(`userExist.cart ${JSON.stringify(userExist.cart)}`);
       // console.log(`Cart of user PIC ${JSON.stringify(product)}`);
@@ -66,6 +68,9 @@ class CartsService {
         cartToUpdate.products.push(newProductToCart);
 
         cartToUpdate.save();
+        // const newCart = await cartsRepository.getCartById(userExist.cart)
+        // console.log(`userExistBef ${JSON.stringify(userExist.cart)}`);
+        // console.log(newCart);
         return cartToUpdate;
       }
     } else {

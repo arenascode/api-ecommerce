@@ -11,20 +11,27 @@ import { cookieSecret } from "../config/cookies.config.js";
 import { CNX_STR } from "../config/mongo.config.js";
 import { addLogger, logger } from "../utils/logger.js";
 import { responseMiddleware } from "../middlewares/responseMethods.js";
-import cors from "cors"
+import cors from "cors";
 
 export const app = express();
 console.log(envConfig.parsed);
-app.use(cors())
+app.use(cookieParser(cookieSecret));
+app.use(
+  cors({
+    origin: ["http://127.0.0.1:5173", "https://www.github.com"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
+app.options("*", cors());
 app.use("/static", express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // This line permmit that the server can interpret the best wall all of data that travel from URL and map it correctly in the req.query
 app.use(addLogger);
-app.use(cookieParser(cookieSecret));
 app.use(responseMiddleware);
 app.use(passportInitialize);
 
-const MONGO_URL_Testing = "mongodb://localhost/test-ecommerce";
+// const MONGO_URL_Testing = "mongodb://localhost/test-ecommerce";
 
 mongoose
   .connect(CNX_STR, {
@@ -32,7 +39,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    logger.info("Conexión exitosa a la base de datos");
+    logger.info("Conexión To DB Succesfully:" + " " + CNX_STR);
   })
   .catch((error) => {
     logger.error("Error al conectar a la base de datos:", error);

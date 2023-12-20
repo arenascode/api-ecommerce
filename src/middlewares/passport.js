@@ -16,6 +16,7 @@ import {
   validationError,
 } from "../models/error/errors.js";
 import { logger } from "../utils/logger.js";
+import { signedCookie } from "cookie-parser";
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -37,6 +38,7 @@ const queryJwtOptions = {
   jwtFromRequest: ExtractJwt.fromExtractors([queryTokenExtractor]),
   secretOrKey: JWT_SECRET_KEY,
 };
+
 // Strategy using token in query
 const queryJwtStrategy = new JwtStrategy(
   queryJwtOptions,
@@ -70,35 +72,30 @@ passport.use(
   "register",
   new RegisterStrategy(
     { passReqToCallback: true, usernameField: "email" },
-    async (req, username, password, done) => {
+    async (req, username, password, done, next) => {
       console.log(`username ${username}`);
       const dataNewUser = req.body;
       console.log(`dataNewUser PssPrt Register ${JSON.stringify(dataNewUser)}`);
       try {
-        if (dataNewUser) {
-          const criteria = {
-            email: username, // I told to passport that mail will be a username.
-          };
-          console.log(`criteria passed to mongo ${JSON.stringify(criteria)}`);
-          const userExist = await usersService.findUserByCriteria(criteria);
-          console.log(userExist);
-          if (userExist) {
-            console.log(`User Already Exist`);
-            const errorInstance = new validationError(
-              "User Already Exist",
-              "Passport Strategy",
-              "Line 63"
-            );
-            errorInstance.logError();
-            throw errorInstance;
-            // return done(null, false);
-          } else {
-            const newUser = await usersService.createNewUser(dataNewUser);
+        // if (dataNewUser) {
+        //   const criteria = {
+        //     email: username, // I told to passport that mail will be a username.
+        //   };
+        //   console.log(`criteria passed to mongo ${JSON.stringify(criteria)}`);
+        //   const userExist = await usersService.findUserByCriteria(criteria);
+        //   console.log(userExist);
+        //   if (userExist) {
+        //     // console.log(`Already Registered User`);
+        //     // throw new Error(`user alredy Exist`);
+        //     return done(null, false, {message: 'Already registered user'});
+        //   } else {
+            
+        //   }
+          const newUser = await usersService.createNewUser(dataNewUser);
             done(null, newUser);
-          }
-        }
+        // }
       } catch (error) {
-        return done(error);
+        done(null, false)
       }
     }
   )
@@ -152,17 +149,17 @@ passport.use(
     },
     async (accesToken, refreshToken, profile, done) => {
       try {
-        console.log(profile);
+        console.log(`profile from GH${profile}`);
         let user = await usersService.findUserByCriteria({
           email: profile._json.email,
         });
         if (!user) {
           let newUser = {
             name: profile.displayName,
-            username: profile.username,
-            id: profile.id,
+            email: profile.username,
+            _id: profile.id,
           };
-
+          await usersService.createNewUser(newUser)
           done(null, newUser);
         } else {
           done(null, user);
@@ -176,7 +173,6 @@ passport.use(
 
 // Authorization
 export function authenticationJWTApi(req, res, next) {
-  console.log(req.body);
   passport.authenticate("jwt", (error, user, info) => {
     if (error) {
       return res.status(401).json({ error: "Unauthorized Error" });
@@ -212,6 +208,7 @@ export const passportInitialize = passport.initialize();
 export const registerAuthentication = passport.authenticate("register", {
   session: false,
   failWithError: true,
+  // failureMessage: true
 });
 
 export const loginAuthentication = passport.authenticate("login", {

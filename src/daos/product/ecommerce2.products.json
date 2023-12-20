@@ -1,0 +1,235 @@
+[{
+  "title": "BMW",
+  "description": "S 1000 RR",
+  "code": "002",
+  "price": 35500,
+  "status": false,
+  "stock": 20,
+  "category": "Superbike",
+  "thumbnails": [
+    "/static/productImages/bmw-s1000rr.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Honda",
+  "description": "CBR1000RR-R SP",
+  "code": "003",
+  "price": 33999,
+  "status": false,
+  "stock": 8,
+  "category": "Superbike",
+  "thumbnails": [
+    "/static/productImages/Honda-CBR1000RR-SP.webp"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Kawasaki",
+  "description": "Ninja H2R",
+  "code": "004",
+  "price": 55000,
+  "status": false,
+  "stock": 7,
+  "category": "Superbike",
+  "thumbnails": [
+    "/static/productImages/kawasaki-ninja-h2r.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Ducati",
+  "description": "Monster 1200 S",
+  "code": "007",
+  "price": 16790,
+  "status": false,
+  "stock": 40,
+  "category": "Naked",
+  "thumbnails": [
+    "/static/productImages/ducatiMonster1200.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "BMW",
+  "description": "R nineT Scrambler",
+  "code": "008",
+  "price": 16600,
+  "status": false,
+  "stock": 8,
+  "category": "Naked",
+  "thumbnails": [
+    "/static/productImages/bmwNinetScrambler.jpg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Triumph",
+  "description": "Street Triple RS",
+  "code": "009",
+  "price": 13500,
+  "status": false,
+  "stock": 10,
+  "category": "Naked",
+  "thumbnails": [
+    "/static/productImages/Triumph-Street-Triple-RS.webp"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "KTM",
+  "description": "1290 Super Duke R",
+  "code": "010",
+  "price": 19199,
+  "status": false,
+  "stock": 9,
+  "category": "Naked",
+  "thumbnails": [
+    "/static/productImages/KTM-1290-SuperDuke-R.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Yamaha",
+  "description": "MT-10",
+  "code": "011",
+  "price": 13999,
+  "status": false,
+  "stock": 11,
+  "category": "Naked",
+  "thumbnails": [
+    "/static/productImages/yamahaMt10.jpg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Aprilia",
+  "description": "Tuono V4 1100 Factory",
+  "code": "012",
+  "price": 18600,
+  "status": false,
+  "stock": 9,
+  "category": "Naked",
+  "thumbnails": [
+    "/static/productImages/apriliaTuonoV4.webp"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Ducati",
+  "description": "Multistrada V4 S",
+  "code": "013",
+  "price": 25100,
+  "status": false,
+  "stock": 6,
+  "category": "Adventure",
+  "thumbnails": [
+    "/static/productImages/Ducati-Mulitstrada-V4-S.webp"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "BMW",
+  "description": "R 1250 GS Adventure",
+  "code": "014",
+  "price": 21100,
+  "status": false,
+  "stock": 8,
+  "category": "Adventure",
+  "thumbnails": [
+    "/static/productImages/bmw-125-adventure.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "KTM",
+  "description": "1290 Super Adventure R",
+  "code": "015",
+  "price": 22099,
+  "status": false,
+  "stock": 7,
+  "category": "Adventure",
+  "thumbnails": [
+    "/static/productImages/KTM-1290-super-adventureR.webp"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Triumph",
+  "description": "Tiger 1200 XCA",
+  "code": "016",
+  "price": 21500,
+  "status": false,
+  "stock": 9,
+  "category": "Adventure",
+  "thumbnails": [
+    "/static/productImages/Triumph-Tiger-1200-XCa.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Honda",
+  "description": "Africa Twin Adventure Sports ES",
+  "code": "017",
+  "price": 17499,
+  "status": false,
+  "stock": 11,
+  "category": "Adventure",
+  "thumbnails": [
+    "/static/productImages/Honda-Africa-Twin-Static.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Yamaha",
+  "description": "Tenere 700",
+  "code": "018",
+  "price": 9999,
+  "status": false,
+  "stock": 14,
+  "category": "Adventure",
+  "thumbnails": [
+    "/static/productImages/yamahaTenere.jpg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Ducati",
+  "description": "Superleggera V4",
+  "code": "027",
+  "price": 100000,
+  "status": false,
+  "stock": 20,
+  "category": "Superbike",
+  "thumbnails": [
+    "/static/productImages/ducati-v4-superleggera.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+
+  "title": "Honda",
+  "description": "CBR1000RR-R Fireblade SP",
+  "code": "030",
+  "price": 28300,
+  "status": false,
+  "stock": 3,
+  "category": "Superbike",
+  "thumbnails": [
+    "/static/productImages/Homda-CBR-1000-Fireblade.jpeg"
+  ],
+  "owner": "admin"
+},
+{
+  "title": "Ducati",
+  "description": "Panigale V4 R",
+  "code": "001",
+  "price": 44000,
+  "status": false,
+  "stock": 20,
+  "category": "Superbike",
+  "thumbnails": [
+    "/static/productImages/Panigale_V4-R.jpeg"
+  ],
+  "owner": "migue.arenas91@gmail.com"
+}]

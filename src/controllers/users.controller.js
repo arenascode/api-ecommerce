@@ -6,6 +6,7 @@ import {
   generateATokenToRestorePass,
 } from "../utils/cryptography.js";
 import { logger } from "../utils/logger.js";
+import { CLIENT_URL } from "../config/env.config.js";
 
 export async function handleGet(req, res, next) {
   try {
@@ -39,8 +40,19 @@ export async function handlePostNewUser(req, res, next) {
 export async function handlePut(req, res, next) {
   try {
     const newData = req.body;
-    const userUpdated = await usersService.updateUser(req.params.uid, newData);
-    res.json(userUpdated);
+    console.log(`File from controller ${JSON.stringify(req.files[0]['path'])}`);
+
+    if (req.files) {
+      const newPhoto = {
+        profilePhoto: req.files[0].path,
+      };
+      const userPhotoUpdated = await usersService.updateUser(req.params.uid, newPhoto)
+      res.status(201).json({userPhotoUpdated, CLIENT_URL});
+    } else {
+      const userUpdated = await usersService.updateUser(req.params.uid, newData);
+    res.status(201).json({userUpdated, CLIENT_URL});
+    }
+    
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
   }

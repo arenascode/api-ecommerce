@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { envConfig } from '../config/env.config.js';
 import { BCRYPT_SALT, JWT_SECRET_KEY } from '../config/auth.config.js';
+import { logger } from './logger.js';
 const bcryptSalt = BCRYPT_SALT
 console.log(`bcryptSalt ${typeof bcryptSalt}`);
 
@@ -22,8 +23,10 @@ export function generateAToken(payload) {
   const token = jwt.sign(JSON.parse(JSON.stringify(payload)), secretKey, {
     expiresIn: "24h",
   });
+  logger.debug(`This is token ${token}`);
   return token
 }
+
 export function generateATokenToRestorePass(payload) {
   const token = jwt.sign(JSON.parse(JSON.stringify(payload)), secretKey, {
     expiresIn: "24h",

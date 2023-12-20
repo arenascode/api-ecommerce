@@ -1,6 +1,7 @@
 import Joi from "joi";
 import { hash } from "../utils/cryptography.js";
 import { validationError } from "../models/error/errors.js";
+import { logger } from "../utils/logger.js";
 
 function validateFirstName(first_name) {
   console.log(`validateFirstName ${first_name}`);
@@ -60,11 +61,12 @@ function validatePassword(password) {
     .validate(password);
   console.log(`value: ${value}`);
   if (error) {
-    const errorInstance = new validationError(error.message, "passwordInput", {
-      module: "UserEntity",
-    });
-    errorInstance.logError();
-    throw errorInstance;
+    // const errorInstance = new validationError(error.message, "passwordInput", {
+    //   module: "UserEntity",
+    // });
+    // errorInstance.logError();
+    logger.error(`error password validation`)
+    throw new Error(error.message);
   }
   return value;
 }
@@ -105,6 +107,7 @@ export default class User {
     role = "user",
     documents = null,
     last_connection = getCurrentDateAsString(),
+    profilePhoto = null 
   }) {
     this.first_name = validateFirstName(first_name);
     this.last_name = validateLastName(last_name);
@@ -116,5 +119,6 @@ export default class User {
     this.documents = documents;
     this.last_connection = last_connection;
     this.status = status;
+    this.profilePhoto = profilePhoto
   }
 }

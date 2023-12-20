@@ -23,8 +23,12 @@ function sendNewPassword(e) {
         body: JSON.stringify(dataToSend),
       }).then((response) => {
         if (response.status == 200) {
-          response.json().then(result => alert(`${result.data}`))
-          window.location.href = '/login'
+          response.json().then(result => {
+            console.log(`Result ${result}`)
+            alert(`${result.message}`)
+            window.location.href = "http://127.0.0.1:5173/login";
+            
+          })
         } else if (response.status == 400) {
           response.json().then(error => {
             alert(`${error.message}`)

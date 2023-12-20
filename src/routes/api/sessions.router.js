@@ -6,7 +6,7 @@ import { passportCall } from "../../utils/passportCall.js"
 
 export const routerSessions = Router()
 
-routerSessions.post('/register', passport.registerAuthentication, sessionsController.userRegister)
+routerSessions.post('/register',sessionsController.isAlreadyRegisteredUser, passport.registerAuthentication, sessionsController.userRegister)
 
 
 routerSessions.post('/login', passport.loginAuthentication, sessionsController.userLogin)
@@ -19,6 +19,12 @@ routerSessions.get('/github', passport.githubAuthentication)
 
 routerSessions.get('/githubcallback', passport.githubAuthentication_CB, sessionsController.githubLogin)
 
+// to get access token from query fy frontend
+routerSessions.get('/getGhToken',
+  sessionsController.getGhToken)
+//TO_DO
+//To get User Data Grom GH
+ routerSessions.get('/getGhUser', sessionsController.getGhUser)
 //Restore Password
 // Step 1. 
 routerSessions.post('/restorePassword/sendMail', sessionsController.confirmMailToRestorePassword)

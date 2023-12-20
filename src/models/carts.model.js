@@ -19,7 +19,7 @@ const cartsSchema = mongoose.Schema({
   }
 }, { versionKey: false});
 
-cartsSchema.pre(/^find/, function (next) {
+cartsSchema.pre(/^find|save/, function (next) {
   this.populate("products._id");
   next()
 })

@@ -13,8 +13,11 @@ export async function handleGetAll(req, res, next) {
       title: req.query.title,
       category: req.query.category
     }
-    const sortPrice = req.query.sortprice
+    logger.debug(`category ${querys.category}`);
+    const sortPrice = parseInt(req.query.sortprice)
+    logger.debug(`sortPrice ${sortPrice}`);
     const page = req.query.page
+    logger.debug(`page ${page}`);
 
     const products = await productsService.getAllProducts(querys, sortPrice, page);
     
@@ -32,7 +35,11 @@ export async function handleGetAll(req, res, next) {
 export async function handleGetById(req, res, next) {
   try {
     const productById = await productsService.getProductById(req.params.pid);
-  res.json(productById);
+    const productByIdWithClientURL = {
+      productById,
+      CLIENT_URL
+    }
+  res.json(productByIdWithClientURL);
   } catch (error) {
     res.status(400).json({errorMsg: error.message})
   }
@@ -43,10 +50,17 @@ export async function handlePost(req, res, next) {
   try {
     const dataNewProduct = req.body;
     const productOwner = req.user
-    console.log(dataNewProduct);
-    console.log(productOwner);
-
-    const productCreated = await productsService.createNewProduct(dataNewProduct, productOwner);
+    const files = req.files
+    console.log(files);
+    // console.log(dataNewProduct);
+    // console.log(productOwner);
+    const staticWord = '/static'
+    const trimmingPath = (req.files[0].path).slice(6)
+    console.log(trimmingPath);
+    const newImgPath = staticWord + trimmingPath
+    const dataWithProductImg = { ...dataNewProduct, thumbnails: newImgPath}
+    console.log(dataWithProductImg);
+    const productCreated = await productsService.createNewProduct(dataWithProductImg, productOwner);
     res.json(productCreated);
   } catch (error) {
      res.status(400).json({ errorMsg: error.message});

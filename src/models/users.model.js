@@ -21,7 +21,8 @@ const usersSchema = mongoose.Schema(
       }]
     },
     status: {type: Boolean},
-    last_connection: {type: String }
+    last_connection: { type: String },
+    profilePhoto: {type: String }
   },
   { versionKey: false }
 );

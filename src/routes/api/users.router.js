@@ -13,7 +13,7 @@ routerUsers.get('/:uid', usersController.handleGetById)
 routerUsers.post('/', usersController.handlePostNewUser)
 
 //Update User
-routerUsers.put('/:uid', usersController.handlePut)
+routerUsers.put('/:uid', uploader.any(), usersController.handlePut)
 
 //Change User Role
 routerUsers.put('/premium/:uid', usersController.changeUserRole)
