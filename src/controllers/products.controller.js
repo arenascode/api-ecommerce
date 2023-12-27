@@ -71,14 +71,19 @@ export async function handlePut(req, res, next) {
   try {
     const productId = req.params.pid;
     const newData = req.body;
-    // const photoPath = './public/productImages/VulcanKawasaki.jpg'
-    // const newData = {
-    //   thumbnails: [photoPath]
-    // }
+    const fileData = req.files;
+    console.log(newData);
+    console.log(fileData);
+    const staticWord = '/static'
+    const trimmingPath = (req.files[0].path).slice(6)
+    const newImgPath = staticWord + trimmingPath
+    const dataWithPic = {...newData, thumbnails: newImgPath}
+    
     const productUpdated = await productsService.updateProduct(
       productId,
-      newData
+      dataWithPic
     );
+    
     res.json(productUpdated);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
