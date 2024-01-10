@@ -1,10 +1,12 @@
 import { Router } from "express";
 import * as usersController from "../../controllers/users.controller.js"
 import { uploader } from "../../utils/multer.js";
+import { isAdmin } from "../../middlewares/handlePolicies.js";
+import { authenticationJWTApi } from "../../middlewares/passport.js";
 export const routerUsers = Router()
 
 //Get all Users
-routerUsers.get('/', usersController.handleGet)
+routerUsers.get('/',authenticationJWTApi, isAdmin, usersController.handleGet)
 
 //Get User By Id
 routerUsers.get('/:uid', usersController.handleGetById)

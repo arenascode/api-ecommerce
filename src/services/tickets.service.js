@@ -7,6 +7,7 @@ class TicketService {
 
     const newTicket = new Ticket(amount, purchaser)
 
+    
     return await ticketRepository.createTicket(newTicket)
   }
 }

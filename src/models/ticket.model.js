@@ -7,6 +7,7 @@ const ticketSchema = mongoose.Schema({
   purchase_dateTime: { type: String },
   amount: { type: Number },
   purchaser: {type: String}
-});
+},
+{versionKey: false});
 
 export const ticketModel = mongoose.model(ticketCollection, ticketSchema)

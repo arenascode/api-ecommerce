@@ -11,5 +11,5 @@ class TicketRepository {
   }
 }
 
-const ticketRepository = new TicketRepository(cartsDaoMongoDb)
+const ticketRepository = new TicketRepository(ticketDaoMongo)
 export default ticketRepository

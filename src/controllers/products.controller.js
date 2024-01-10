@@ -52,10 +52,11 @@ export async function handlePost(req, res, next) {
   try {
     const dataNewProduct = req.body;
     const productOwner = req.user;
-    const files = req.file;
+    const files = req.files;
     console.log(files);
     // console.log(dataNewProduct);
     // console.log(productOwner);
+
     const staticWord = "/static";
     const trimmingPath = req.files[0].path.slice(6);
     console.log(trimmingPath);

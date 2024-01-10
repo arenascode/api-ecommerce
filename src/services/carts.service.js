@@ -7,6 +7,7 @@ import mailService from "./mail.service.js";
 import productsService from "./products.service.js";
 import { logger } from "../utils/logger.js";
 import { errors, validationError } from "../models/error/errors.js";
+import ticketService from "./tickets.service.js";
 
 class CartsService {
   async getAllCarts() {
@@ -104,7 +105,6 @@ class CartsService {
     let productsOutOfStock = cartPurchased.products.filter(
       (p) => p.quantity >= p._id.stock
     );
-    // console.log(`POOS ${productsOutOfStock}`);
 
     let totalAmount = 0;
     let purchasedProducts = [];
@@ -121,8 +121,9 @@ class CartsService {
 
     console.log(`TotalAMount ${totalAmount}`);
     const purchaser = await usersRepository.getUserById(cartPurchased.user);
-    // console.log(`Purchaser ${purchaser}`);
-    const newTicket = new Ticket(totalAmount, purchaser.email);
+
+    const newTicket = await ticketService.createTicket(totalAmount, purchaser.email)
+
     if (!newTicket) {
       throw new Error("Error generating Ticket. Try again");
     }

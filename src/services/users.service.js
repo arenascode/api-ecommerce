@@ -22,14 +22,21 @@ class UsersService {
   }
 
   async createNewUser(dataNewUser) {
-    console.log(`dataNewUser in Service ${dataNewUser}`);
-    const newUser = new User(dataNewUser);
-    console.log(newUser.email);
-    const userExist = await usersRepository.findUser({ email: newUser.email });
-    if (userExist) {
-      throw new Error("The User Already Exist");
-    } else {
-      return await usersRepository.createNewUser(newUser);
+    try {
+      console.log(`dataNewUser in Service ${dataNewUser}`);
+      const newUser = new User(dataNewUser);
+      console.log(newUser.email);
+      if (!newUser) {
+        throw new Error("Some error Ocurred. Review data");
+      }
+      const userExist = await usersRepository.findUser({ email: newUser.email });
+      if (userExist) {
+        throw new Error("The User Already Exist");
+      } else {
+        return await usersRepository.createNewUser(newUser);
+      }
+    } catch (error) {
+      return error
     }
   }
 

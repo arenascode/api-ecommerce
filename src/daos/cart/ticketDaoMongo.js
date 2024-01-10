@@ -12,4 +12,5 @@ class TicketDaoMongo {
 }
 
 const ticketDaoMongo = new TicketDaoMongo(ticketModel)
+
 export default ticketDaoMongo

@@ -32,6 +32,7 @@ class ProductsDaoMongoDB {
   async findProduct(query) {
     return await this.collection.find(query)
   }
+  
   async createNewProduct(newProductData) {
     // const pojo = toPojo(await this.collection.create(newProductData))
     return await this.collection.create(newProductData)

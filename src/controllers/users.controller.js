@@ -11,7 +11,11 @@ import { CLIENT_URL } from "../config/env.config.js";
 export async function handleGet(req, res, next) {
   try {
     const users = await usersService.getAllUsers();
-    res.json(users);
+    const usersWithUrl = {
+      users,
+      CLIENT_URL
+    } 
+    res.status(200).json(usersWithUrl);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
   }
@@ -31,7 +35,8 @@ export async function handlePostNewUser(req, res, next) {
   try {
     const dataNewUser = req.body;
     const userCreated = await usersService.createNewUser(dataNewUser);
-    res.json(userCreated);
+    logger.debug(userCreated)
+    // res.json(userCreated);
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });
   }
@@ -43,8 +48,13 @@ export async function handlePut(req, res, next) {
     console.log(`File from controller ${JSON.stringify(req.files[0]['path'])}`);
 
     if (req.files) {
+
+      const staticWord = "static";
+      const trimmingPath = req.files[0].path.slice(6);
+      console.log(trimmingPath);
+      const newImgPath = staticWord + trimmingPath;
       const newPhoto = {
-        profilePhoto: req.files[0].path,
+        profilePhoto: newImgPath,
       };
       const userPhotoUpdated = await usersService.updateUser(req.params.uid, newPhoto)
       res.status(201).json({userPhotoUpdated, CLIENT_URL});
@@ -106,6 +116,7 @@ export async function uploadDocuments(req, res, next) {
     
   }
 }
+
 export async function handleDelete(req, res, next) {
   try {
     const userDeleted = await usersService.deleteUser(req.params.uid);

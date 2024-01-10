@@ -178,6 +178,7 @@ export function authenticationJWTApi(req, res, next) {
       return res.status(401).json({ error: "Unauthorized Error" });
     }
     if (!user) {
+      console.log(user);
       return res
         .status(401)
         .json({ error: `Token Doesn't exist. Please Log in` });

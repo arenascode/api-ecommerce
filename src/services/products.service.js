@@ -25,7 +25,9 @@ class ProductsService {
   async getProductById(productId) {
     return await productsRepository.getProductById(productId);
   }
-
+  async findProduct(query) {
+    return await productsRepository.findProduct(query)
+  }
   async createNewProduct(newProductData, userData) {
     const productExist = await productsRepository.findProduct({
       code: newProductData.code,
