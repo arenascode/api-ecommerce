@@ -20,6 +20,9 @@ routerUsers.put('/:uid', uploader.any(), usersController.handlePut)
 //Change User Role
 routerUsers.put('/premium/:uid', usersController.changeUserRole)
 
+//Change User Role by Admin
+routerUsers.put('/changeUserRoleByAdmin/:uid',authenticationJWTApi, isAdmin, usersController.handlePut)
+
 //Delete User 
 routerUsers.delete('/:uid', usersController.handleDelete)
 

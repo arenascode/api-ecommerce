@@ -45,10 +45,11 @@ export async function handlePostNewUser(req, res, next) {
 export async function handlePut(req, res, next) {
   try {
     const newData = req.body;
-    console.log(`File from controller ${JSON.stringify(req.files[0]['path'])}`);
+    console.log(newData);
+    // console.log(`File from controller ${JSON.stringify(req.files[0]['path'])}`);
 
     if (req.files) {
-
+      console.log(`or enter here?`);
       const staticWord = "static";
       const trimmingPath = req.files[0].path.slice(6);
       console.log(trimmingPath);
@@ -59,11 +60,14 @@ export async function handlePut(req, res, next) {
       const userPhotoUpdated = await usersService.updateUser(req.params.uid, newPhoto)
       res.status(201).json({userPhotoUpdated, CLIENT_URL});
     } else {
+      logger.debug(`enter here?`)
       const userUpdated = await usersService.updateUser(req.params.uid, newData);
+      console.log(userUpdated);
     res.status(201).json({userUpdated, CLIENT_URL});
     }
     
   } catch (error) {
+    console.log(error);
     res.status(400).json({ errorMsg: error.message });
   }
 }
