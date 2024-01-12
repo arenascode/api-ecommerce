@@ -1,7 +1,6 @@
-import cartsDaoMongoDb from "../daos/cart/cartsDaoMongoDb.js";
 import ticketDaoMongo from "../daos/cart/ticketDaoMongo.js";
 
-class TicketRepository {
+class TicketsRepository {
 
   constructor(daoSelected) {
     this.dao = daoSelected
@@ -9,7 +8,11 @@ class TicketRepository {
   async createTicket(ticketData) {
     return await this.dao.createTicket(ticketData)
   }
+
+  async getTickets() {
+    return await this.dao.getTickets()
+  }
 }
 
-const ticketRepository = new TicketRepository(ticketDaoMongo)
-export default ticketRepository
+const ticketsRepository = new TicketsRepository(ticketDaoMongo)
+export default ticketsRepository

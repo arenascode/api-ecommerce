@@ -1,6 +1,6 @@
 import { ticketModel } from "../../models/ticket.model.js"
 
-class TicketDaoMongo {
+class TicketsDaoMongo {
 
   constructor(collectionSelected) {
     this.collection = collectionSelected
@@ -9,8 +9,12 @@ class TicketDaoMongo {
   async createTicket(ticketData) {
     return this.collection.create(ticketData)
   }
+
+  async getTickets() {
+    return this.collection.find()
+  }
 }
 
-const ticketDaoMongo = new TicketDaoMongo(ticketModel)
+const ticketsDaoMongo = new TicketsDaoMongo(ticketModel)
 
-export default ticketDaoMongo
+export default ticketsDaoMongo

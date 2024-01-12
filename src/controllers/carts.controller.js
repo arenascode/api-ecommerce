@@ -108,3 +108,8 @@ export async function deleteAllCarts(req, res, next) {
     res.status(400).json({ errorMsg: error.message });
   }
 }
+
+export async function handleGetOrders(req, res, next) {
+  
+  const orders = cartsService.getOrders
+}
