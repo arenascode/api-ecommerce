@@ -46,9 +46,8 @@ export async function handlePut(req, res, next) {
   try {
     const newData = req.body;
     console.log(newData);
-    // console.log(`File from controller ${JSON.stringify(req.files[0]['path'])}`);
 
-    if (req.files) {
+    if (req.files.length > 0) {
       console.log(`or enter here?`);
       const staticWord = "static";
       const trimmingPath = req.files[0].path.slice(6);
@@ -57,13 +56,15 @@ export async function handlePut(req, res, next) {
       const newPhoto = {
         profilePhoto: newImgPath,
       };
+
       const userPhotoUpdated = await usersService.updateUser(req.params.uid, newPhoto)
+
       res.status(201).json({userPhotoUpdated, CLIENT_URL});
     } else {
       logger.debug(`enter here?`)
       const userUpdated = await usersService.updateUser(req.params.uid, newData);
       console.log(userUpdated);
-    res.status(201).json({userUpdated, CLIENT_URL});
+      res.status(201).json({userUpdated, CLIENT_URL});
     }
     
   } catch (error) {

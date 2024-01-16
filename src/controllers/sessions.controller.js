@@ -78,7 +78,9 @@ export async function userLogOut(req, res, next) {
 export async function currentSession(req, res, next) {
   try {
     if (!req.user) res.redirect("/login");
-    const currentUserDTO = new UserDto(req.user);
+    const userFound = await usersService.getUserById(req.user._id)
+    if (!userFound) {return res.status(403).json(`User Not Found`)}
+    const currentUserDTO = new UserDto(userFound);
     console.log(`all is ok?`);
     res.json({ currentUserDTO, CLIENT_URL });
   } catch (error) {

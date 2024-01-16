@@ -15,7 +15,7 @@ export async function handleGetById(req, res, next) {
   try {
     console.log(req.params.cid);
     const cartById = await cartsService.getCartById(req.params.cid);
-
+    console.log(cartById);
     res.json({cartById, CLIENT_URL});
   } catch (error) {
     res.status(400).json({ errorMsg: error.message });

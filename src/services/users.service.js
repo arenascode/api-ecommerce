@@ -1,6 +1,7 @@
 import User from "../entities/User.js";
 import { ErrorNotFound } from "../models/error/errors.js";
 import usersRepository from "../repositories/users.repository.js";
+import { hash } from "../utils/cryptography.js";
 import { logger } from "../utils/logger.js";
 
 class UsersService {
@@ -42,7 +43,15 @@ class UsersService {
 
   async updateUser(uid, newData) {
     //logic
-    return await usersRepository.updateUser(uid, newData);
+    if (newData.password) {
+      const passEncrypted = hash(newData.password)
+      delete newData.password
+      const dataToUpdate = { ...newData, password: passEncrypted }
+      console.log(dataToUpdate);
+      return await usersRepository.updateUser(uid, dataToUpdate);
+    } else {
+      return await usersRepository.updateUser(uid, newData);
+    }
   }
 
   async deleteUser(uid) {
