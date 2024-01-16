@@ -5,6 +5,7 @@ import { routerCarts } from "./carts.router.js";
 import { routerSessions } from "./sessions.router.js";
 import { responseMiddleware } from "../../middlewares/responseMethods.js";
 import ordersRouter from "./tickets.router.js";
+import paymentsRouter from "./payments.router.js";
 
 export const apiRouter = Router()
 
@@ -20,3 +21,6 @@ apiRouter.use('/carts', routerCarts)
 apiRouter.use('/sessions', routerSessions)
 
 apiRouter.use('/orders', ordersRouter)
+
+//Payments 
+apiRouter.use('/payments', paymentsRouter)
