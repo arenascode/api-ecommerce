@@ -122,14 +122,13 @@ class CartsService {
     console.log(`TotalAmount ${totalAmount}`);
 
     const purchaser = await usersRepository.getUserById(cartPurchased.user);
-    //* Divide from here!
-
+   
     const newTicket = await ticketService.createTicket(totalAmount, purchaser.email)
 
     if (!newTicket) {
       throw new Error("Error generating Ticket. Try again");
     }
-    //* Put payment service here!
+    
     // Send an email to the user to notify him of the purchase
     await mailService.sendmailToConfirmPurchase(
       purchasedProducts,

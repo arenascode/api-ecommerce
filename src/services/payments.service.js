@@ -1,5 +1,4 @@
 import Stripe from "stripe"
-import cartsRepository from "../repositories/carts.repository.js"
 import { STRIPE_SECRET_KEY } from "../config/env.config.js"
 
 const stripe = new Stripe(STRIPE_SECRET_KEY)
@@ -7,7 +6,7 @@ const stripe = new Stripe(STRIPE_SECRET_KEY)
 class PaymentsService {
 
   async createIntent(amount) {
-
+    
     const paymentIntentInfo = {
       amount,
       currency: 'usd'
