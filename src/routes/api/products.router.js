@@ -17,7 +17,7 @@ routerProducts.get('/:pid', productsController.handleGetById)
 routerProducts.post('/',authenticationJWTApi, isAdminOrPremiumRole, productExist, uploader.any(), productsController.handlePost)
 
 // To update a product
-routerProducts.put('/:pid', uploader.any(), productsController.handlePut)
+routerProducts.put('/:pid', authenticationJWTApi, isAdminOrPremiumRole, uploader.any(), productsController.handlePut)
 
 // To delete a product 
 routerProducts.delete('/:pid',authenticationJWTApi,isAdminOrPremiumRole, productsController.handleDeletebyId)

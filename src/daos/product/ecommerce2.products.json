@@ -17,7 +17,7 @@
   "code": "003",
   "price": 33999,
   "status": false,
-  "stock": 8,
+  "stock": 20,
   "category": "Superbike",
   "thumbnails": [
     "/static/productImages/Honda-CBR1000RR-SP.webp"
@@ -30,7 +30,7 @@
   "code": "004",
   "price": 55000,
   "status": false,
-  "stock": 7,
+  "stock": 20,
   "category": "Superbike",
   "thumbnails": [
     "/static/productImages/kawasaki-ninja-h2r.jpeg"
@@ -43,7 +43,7 @@
   "code": "007",
   "price": 16790,
   "status": false,
-  "stock": 40,
+  "stock": 20,
   "category": "Naked",
   "thumbnails": [
     "/static/productImages/ducatiMonster1200.jpeg"
@@ -56,7 +56,7 @@
   "code": "008",
   "price": 16600,
   "status": false,
-  "stock": 8,
+  "stock": 20,
   "category": "Naked",
   "thumbnails": [
     "/static/productImages/bmwNinetScrambler.jpg"
@@ -69,7 +69,7 @@
   "code": "009",
   "price": 13500,
   "status": false,
-  "stock": 10,
+  "stock": 20,
   "category": "Naked",
   "thumbnails": [
     "/static/productImages/Triumph-Street-Triple-RS.webp"
@@ -82,7 +82,7 @@
   "code": "010",
   "price": 19199,
   "status": false,
-  "stock": 9,
+  "stock": 20,
   "category": "Naked",
   "thumbnails": [
     "/static/productImages/KTM-1290-SuperDuke-R.jpeg"
@@ -95,7 +95,7 @@
   "code": "011",
   "price": 13999,
   "status": false,
-  "stock": 11,
+  "stock": 20,
   "category": "Naked",
   "thumbnails": [
     "/static/productImages/yamahaMt10.jpg"
@@ -108,7 +108,7 @@
   "code": "012",
   "price": 18600,
   "status": false,
-  "stock": 9,
+  "stock": 20,
   "category": "Naked",
   "thumbnails": [
     "/static/productImages/apriliaTuonoV4.webp"
@@ -121,7 +121,7 @@
   "code": "013",
   "price": 25100,
   "status": false,
-  "stock": 6,
+  "stock": 20,
   "category": "Adventure",
   "thumbnails": [
     "/static/productImages/Ducati-Mulitstrada-V4-S.webp"
@@ -134,7 +134,7 @@
   "code": "014",
   "price": 21100,
   "status": false,
-  "stock": 8,
+  "stock": 20,
   "category": "Adventure",
   "thumbnails": [
     "/static/productImages/bmw-125-adventure.jpeg"
@@ -147,7 +147,7 @@
   "code": "015",
   "price": 22099,
   "status": false,
-  "stock": 7,
+  "stock": 20,
   "category": "Adventure",
   "thumbnails": [
     "/static/productImages/KTM-1290-super-adventureR.webp"
@@ -160,7 +160,7 @@
   "code": "016",
   "price": 21500,
   "status": false,
-  "stock": 9,
+  "stock": 20,
   "category": "Adventure",
   "thumbnails": [
     "/static/productImages/Triumph-Tiger-1200-XCa.jpeg"
@@ -173,7 +173,7 @@
   "code": "017",
   "price": 17499,
   "status": false,
-  "stock": 11,
+  "stock": 20,
   "category": "Adventure",
   "thumbnails": [
     "/static/productImages/Honda-Africa-Twin-Static.jpeg"
@@ -186,7 +186,7 @@
   "code": "018",
   "price": 9999,
   "status": false,
-  "stock": 14,
+  "stock": 20,
   "category": "Adventure",
   "thumbnails": [
     "/static/productImages/yamahaTenere.jpg"
@@ -213,7 +213,7 @@
   "code": "030",
   "price": 28300,
   "status": false,
-  "stock": 3,
+  "stock": 20,
   "category": "Superbike",
   "thumbnails": [
     "/static/productImages/Homda-CBR-1000-Fireblade.jpeg"

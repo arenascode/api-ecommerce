@@ -174,11 +174,12 @@ passport.use(
 // Authorization
 export function authenticationJWTApi(req, res, next) {
   passport.authenticate("jwt", (error, user, info) => {
+    logger.debug(error)
     if (error) {
       return res.status(401).json({ error: "Unauthorized Error" });
     }
     if (!user) {
-      console.log(user);
+      console.log({user});
       return res
         .status(401)
         .json({ error: `Token Doesn't exist. Please Log in` });

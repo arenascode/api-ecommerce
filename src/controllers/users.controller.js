@@ -45,7 +45,6 @@ export async function handlePostNewUser(req, res, next) {
 export async function handlePut(req, res, next) {
   try {
     const newData = req.body;
-    console.log(newData);
 
     if (req.files.length > 0) {
       console.log(`or enter here?`);
@@ -57,9 +56,9 @@ export async function handlePut(req, res, next) {
         profilePhoto: newImgPath,
       };
 
-      const userPhotoUpdated = await usersService.updateUser(req.params.uid, newPhoto)
+      const userUpdated = await usersService.updateUser(req.params.uid, newPhoto)
 
-      res.status(201).json({userPhotoUpdated, CLIENT_URL});
+      res.status(201).json({userUpdated, CLIENT_URL});
     } else {
       logger.debug(`enter here?`)
       const userUpdated = await usersService.updateUser(req.params.uid, newData);
