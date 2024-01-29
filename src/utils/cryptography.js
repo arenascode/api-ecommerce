@@ -3,11 +3,8 @@ import jwt from 'jsonwebtoken'
 import { envConfig } from '../config/env.config.js';
 import { BCRYPT_SALT, JWT_SECRET_KEY } from '../config/auth.config.js';
 import { logger } from './logger.js';
-const bcryptSalt = BCRYPT_SALT
-console.log(`bcryptSalt ${typeof bcryptSalt}`);
 
 export function hash(password) {
-  console.log(`hash ${password}`);
   return bcrypt.hashSync(password, bcrypt.genSaltSync(BCRYPT_SALT))
 }
 

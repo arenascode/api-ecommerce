@@ -7,7 +7,7 @@ export const envConfig = dotenv.config({
 export const NODE_ENV = process.env.NODE_ENV || 'dev'
 
 export const CLIENT_URL = process.env.CLIENT_URL
-console.log(CLIENT_URL);
+
 
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 

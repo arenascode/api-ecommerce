@@ -14,7 +14,7 @@ import { responseMiddleware } from "../middlewares/responseMethods.js";
 import cors from "cors";
 
 export const app = express();
-console.log(envConfig.parsed);
+
 app.use(cookieParser(cookieSecret));
 app.use(
   cors({
@@ -23,6 +23,7 @@ app.use(
       "https://www.github.com",
       "http://localhost:3000",
       "https://fe-ecommerce-g4bkg9g9q-arenascode.vercel.app/",
+      "https://fe-ecommerce-steel.vercel.app/",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
