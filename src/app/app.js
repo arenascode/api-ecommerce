@@ -22,10 +22,10 @@ app.use(
       "http://127.0.0.1:5173",
       "https://www.github.com",
       "http://localhost:3000",
-      "https://fe-ecommerce-g4bkg9g9q-arenascode.vercel.app/",
-      "https://fe-ecommerce-steel.vercel.app/",
+      "https://fe-ecommerce-g4bkg9g9q-arenascode.vercel.app",
+      "https://fe-ecommerce-steel.vercel.app",
     ],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    methods: "GET,HEAD,PUT,POST,DELETE",
     credentials: true,
   })
 );
