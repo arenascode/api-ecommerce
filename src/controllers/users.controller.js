@@ -1,10 +1,5 @@
-import { ErrorNotFound, UploadFileError, errors, validationError } from "../models/error/errors.js";
-import mailService from "../services/mail.service.js";
+import { UploadFileError, errors, validationError } from "../models/error/errors.js";
 import usersService from "../services/users.service.js";
-import {
-  generateAToken,
-  generateATokenToRestorePass,
-} from "../utils/cryptography.js";
 import { logger } from "../utils/logger.js";
 import { CLIENT_URL } from "../config/env.config.js";
 
