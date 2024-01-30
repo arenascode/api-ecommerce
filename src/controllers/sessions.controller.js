@@ -53,7 +53,8 @@ export async function userLogin(req, res, next) {
     res.cookie("jwt_authorization", generateAToken(req.user), {
       signed: true,
       httpOnly: true,
-      // sameSite: "Strict",
+      sameSite: "None",
+      secure: true
       // domain: "127.0.0.1:5173",
     });
     const loggedUserDto = new UserDto(req.user);
