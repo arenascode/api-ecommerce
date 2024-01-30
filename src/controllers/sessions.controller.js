@@ -69,6 +69,8 @@ export async function userLogOut(req, res, next) {
     res.clearCookie("jwt_authorization", {
       signed: true,
       httpOnly: true,
+      sameSite: "None",
+      secure: true,
     });
     res.redirect("/login");
   } catch (error) {
